@@ -923,7 +923,7 @@ export default function SupervisorDashboard({ supervisor }) {
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                       {extraLabors.map((ex, index) => (
                         <div key={ex.id} style={{ background: 'rgba(0,0,0,0.15)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '12px', position: 'relative' }}>
-                          <div style={{ display: 'flex', justifyBetween: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                             <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--brand-red)' }}>LABOR ADICIONAL #{index + 1}</span>
                             <button 
                               type="button" 

@@ -631,6 +631,24 @@ export default function SupervisorDashboard({ supervisor }) {
     }
   };
 
+  const handleDeleteLog = async (id, nombre) => {
+    if (window.confirm(`¿Está seguro de que desea eliminar el registro de asistencia de ${nombre}? Esta acción se aplicará en la base de datos de inmediato.`)) {
+      try {
+        const { error } = await supabase
+          .from('asistencia')
+          .delete()
+          .eq('id', id);
+
+        if (error) throw error;
+
+        showToast(`Registro de ${nombre} eliminado de la base de datos.`, 'ok');
+        fetchTodayLogs();
+      } catch (err) {
+        showToast('Error al eliminar registro: ' + err.message, 'error');
+      }
+    }
+  };
+
   // Fetch supervisor personal logs history
   const fetchPersonalHistory = async () => {
     setLoadingHistory(true);
@@ -1256,7 +1274,7 @@ export default function SupervisorDashboard({ supervisor }) {
                   <div key={log.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: 'rgba(0,0,0,0.03)', border: '1px solid var(--border)', borderLeft: `4px solid ${borderLeftCol}`, borderRadius: 'var(--radius-sm)' }}>
                     <div>
                       <div style={{ fontWeight: 600, fontSize: '15px' }}>{log.nombre}</div>
-                      <div style={{ display: 'flex', gap: '10px', marginTop: '4px', fontSize: '12px', color: 'var(--txt-secondary)' }}>
+                      <div style={{ display: 'flex', gap: '10px', marginTop: '4px', fontSize: '12px', color: 'var(--txt-secondary)', flexWrap: 'wrap' }}>
                         <span>DNI: {log.dni}</span>
                         <span>•</span>
                         <span>Estado: <span style={{ fontWeight: 600, color: borderLeftCol }}>{log.estado}</span></span>
@@ -1270,11 +1288,23 @@ export default function SupervisorDashboard({ supervisor }) {
                         )}
                       </div>
                     </div>
-                    {log.estado === 'Trabajo' && log.hora_inicio && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '12px', color: 'var(--txt-secondary)', background: 'rgba(255,255,255,0.03)', padding: '4px 8px', borderRadius: 'var(--radius-xs)', border: '1px solid var(--border)' }}>
-                        <Clock size={12} /> {log.hora_inicio} {log.hora_fin ? `— ${log.hora_fin}` : ''}
-                      </div>
-                    )}
+                    
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                      {log.estado === 'Trabajo' && log.hora_inicio && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '12px', color: 'var(--txt-secondary)', background: 'rgba(0,0,0,0.02)', padding: '4px 8px', borderRadius: 'var(--radius-xs)', border: '1px solid var(--border)' }}>
+                          <Clock size={12} /> {log.hora_inicio} {log.hora_fin ? `— ${log.hora_fin}` : ''}
+                        </div>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteLog(log.id, log.nombre)}
+                        style={{ background: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.15)', color: '#ef4444', padding: '6px 10px', borderRadius: 'var(--radius-xs)', cursor: 'pointer', fontSize: '12px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', transition: '0.15s' }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)'}
+                      >
+                        <Trash2 size={12} /> Eliminar
+                      </button>
+                    </div>
                   </div>
                 );
               })}

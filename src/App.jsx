@@ -125,12 +125,12 @@ export default function App() {
       <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', padding: '20px', background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #dbeafe 100%)' }}>
         <div style={{ width: '100%', maxWidth: '420px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '30px', boxShadow: 'var(--shadow)' }}>
           <div style={{ textAlign: 'center', marginBottom: '25px' }}>
-            <div style={{ display: 'inline-flex', padding: '12px', background: 'var(--brand-red-glow)', borderRadius: '50%', marginBottom: '10px', boxShadow: 'var(--shadow-glow)' }}>
-              {/* Premium checkmark shield logo */}
-              <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--brand-red)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}>
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(30, 64, 175, 0.08)" />
-                <path d="M9 11l2 2 4-4" stroke="var(--brand-red)" strokeWidth="2.5" />
-              </svg>
+            <div style={{ display: 'inline-flex', marginBottom: '15px' }}>
+              <img 
+                src="https://i.ibb.co/1tBGgv0b/logo.png" 
+                alt="Logo El Pedregal" 
+                style={{ height: '54px', width: 'auto', background: 'rgba(30, 64, 175, 0.06)', borderRadius: '8px', padding: '6px', objectFit: 'contain' }}
+              />
             </div>
             <h1 style={{ fontSize: '24px', letterSpacing: '-0.5px', marginBottom: '4px', color: 'var(--txt)' }}>El Pedregal S.A.</h1>
             <p style={{ color: 'var(--txt-secondary)', fontSize: '14px' }}>Sistema de Control de Asistencias</p>
@@ -222,12 +222,11 @@ export default function App() {
       {/* Header bar - Blue headers */}
       <header style={{ background: '#1e40af', borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#fff' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ padding: '6px', background: 'rgba(255,255,255,0.12)', borderRadius: 'var(--radius-sm)' }}>
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#fff', display: 'block' }}>
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(255,255,255,0.15)" />
-              <path d="M9 11l2 2 4-4" stroke="#93c5fd" />
-            </svg>
-          </div>
+          <img 
+            src="https://i.ibb.co/1tBGgv0b/logo.png" 
+            alt="Logo" 
+            style={{ height: '38px', width: 'auto', background: 'rgba(255, 255, 255, 0.12)', borderRadius: '6px', padding: '4px', objectFit: 'contain', display: 'block' }}
+          />
           <div>
             <h2 style={{ fontSize: '16px', fontWeight: 800, letterSpacing: '-0.3px', color: '#fff', margin: 0 }}>Pedregal Asistencias</h2>
             <p style={{ fontSize: '11px', color: '#bfdbfe', margin: 0 }}>

@@ -71,7 +71,9 @@ export default function App() {
           Edwin: 'Edwin2025!', 
           Damian: 'Damian2025!', 
           Demetrio: 'Demetrio2025!', 
-          Gerardo: 'Gerardo2025!' 
+          Gerardo: 'Gerardo2025!',
+          Martin: 'Martin2025!',
+          Jimmy: 'Jimmy2025!'
         };
         if (localDef[cleanUsername] && localDef[cleanUsername] === loginPassword) {
           loginSuccess(cleanUsername);
@@ -86,7 +88,9 @@ export default function App() {
         Edwin: 'Edwin2025!', 
         Damian: 'Damian2025!', 
         Demetrio: 'Demetrio2025!', 
-        Gerardo: 'Gerardo2025!' 
+        Gerardo: 'Gerardo2025!',
+        Martin: 'Martin2025!',
+        Jimmy: 'Jimmy2025!'
       };
       if (localDef[cleanUsername] && localDef[cleanUsername] === loginPassword) {
         loginSuccess(cleanUsername);

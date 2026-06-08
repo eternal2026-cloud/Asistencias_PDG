@@ -9,13 +9,34 @@ export default function AdminDashboard() {
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedSupervisor, setSelectedSupervisor] = useState('Todos');
-  const [supervisorsList, setSupervisorsList] = useState(['Edwin', 'Damian', 'Demetrio', 'Gerardo']);
+  const [supervisorsList, setSupervisorsList] = useState(['Edwin', 'Damian', 'Demetrio', 'Gerardo', 'Martin', 'Jimmy']);
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   // Stats
   const [stats, setStats] = useState({ total: 0, trabajo: 0, descanso: 0, falta: 0 });
+
+  // Fetch supervisors dynamically from DB on mount
+  useEffect(() => {
+    const fetchSupervisors = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('supervisores')
+          .select('nombre')
+          .eq('activo', true)
+          .order('nombre', { ascending: true });
+
+        if (error) throw error;
+        if (data && data.length > 0) {
+          setSupervisorsList(data.map(d => d.nombre));
+        }
+      } catch (err) {
+        console.warn("Failed to fetch supervisors from DB, using fallback list", err);
+      }
+    };
+    fetchSupervisors();
+  }, []);
 
   useEffect(() => {
     fetchLogs();

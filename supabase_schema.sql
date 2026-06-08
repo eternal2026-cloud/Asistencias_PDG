@@ -31,9 +31,12 @@ VALUES
     ('Edwin', 'Edwin2025!', TRUE),
     ('Damian', 'Damian2025!', TRUE),
     ('Demetrio', 'Demetrio2025!', TRUE),
-    ('Gerardo', 'Gerardo2025!', TRUE)
+    ('Gerardo', 'Gerardo2025!', TRUE),
+    ('Martin', 'Martin2025!', TRUE),
+    ('Jimmy', 'Jimmy2025!', TRUE)
 ON CONFLICT (nombre) DO UPDATE 
 SET clave = EXCLUDED.clave, activo = EXCLUDED.activo;
+
 
 -- 3. Table: asistencia
 CREATE TABLE IF NOT EXISTS public.asistencia (

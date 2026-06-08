@@ -725,9 +725,9 @@ export default function SupervisorDashboard({ supervisor }) {
                       key={num}
                       type="button"
                       onClick={() => handleKeypadPress(num.toString())}
-                      style={{ height: '54px', fontSize: '20px', fontWeight: 700, background: 'var(--bg-app)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: '#fff', cursor: 'pointer', transition: '0.15s' }}
+                      style={{ height: '54px', fontSize: '20px', fontWeight: 700, background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--txt)', cursor: 'pointer', transition: '0.15s' }}
                       onMouseEnter={(e) => e.target.style.background = 'var(--bg-card-hover)'}
-                      onMouseLeave={(e) => e.target.style.background = 'var(--bg-app)'}
+                      onMouseLeave={(e) => e.target.style.background = 'var(--bg-card)'}
                     >
                       {num}
                     </button>
@@ -742,7 +742,7 @@ export default function SupervisorDashboard({ supervisor }) {
                   <button 
                     type="button"
                     onClick={() => handleKeypadPress('0')}
-                    style={{ height: '54px', fontSize: '20px', fontWeight: 700, background: 'var(--bg-app)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: '#fff', cursor: 'pointer' }}
+                    style={{ height: '54px', fontSize: '20px', fontWeight: 700, background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: 'var(--txt)', cursor: 'pointer' }}
                   >
                     0
                   </button>
@@ -868,7 +868,7 @@ export default function SupervisorDashboard({ supervisor }) {
                       key={est}
                       type="button"
                       onClick={() => setEstado(est)}
-                      style={{ flex: 1, padding: '10px', background: estado === est ? 'var(--brand-red)' : 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontWeight: 600, fontSize: '13px' }}
+                      style={{ flex: 1, padding: '10px', background: estado === est ? 'var(--brand-red)' : 'rgba(0,0,0,0.02)', border: '1px solid var(--border)', color: estado === est ? '#fff' : 'var(--txt-secondary)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontWeight: 600, fontSize: '13px' }}
                     >
                       {est}
                     </button>
@@ -1036,7 +1036,7 @@ export default function SupervisorDashboard({ supervisor }) {
               <button 
                 type="button" 
                 onClick={clearExcelTable}
-                style={{ padding: '8px 12px', background: 'rgba(0,0,0,0.02)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12.5px', fontWeight: 600 }}
+                style={{ padding: '8px 12px', background: 'rgba(0,0,0,0.02)', border: '1px solid var(--border)', color: 'var(--txt-secondary)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12.5px', fontWeight: 600 }}
               >
                 Limpiar Tabla
               </button>

@@ -45,7 +45,8 @@ export default function App() {
     }
 
     // Supervisor Login
-    if (!loginUsername || !loginPassword) {
+    const cleanUsername = loginUsername.trim();
+    if (!cleanUsername || !loginPassword) {
       setErrorMsg('Por favor complete todos los campos.');
       setLoading(false);
       return;
@@ -56,14 +57,14 @@ export default function App() {
       const { data, error } = await supabase
         .from('supervisores')
         .select('*')
-        .eq('nombre', loginUsername)
+        .eq('nombre', cleanUsername)
         .eq('clave', loginPassword)
         .eq('activo', true);
 
       if (error) throw error;
 
       if (data && data.length > 0) {
-        loginSuccess(loginUsername);
+        loginSuccess(cleanUsername);
       } else {
         // Fallback local definitions
         const localDef = { 
@@ -72,8 +73,8 @@ export default function App() {
           Demetrio: 'Demetrio2025!', 
           Gerardo: 'Gerardo2025!' 
         };
-        if (localDef[loginUsername] && localDef[loginUsername] === loginPassword) {
-          loginSuccess(loginUsername);
+        if (localDef[cleanUsername] && localDef[cleanUsername] === loginPassword) {
+          loginSuccess(cleanUsername);
         } else {
           setErrorMsg('Usuario o contraseña incorrectos.');
         }
@@ -87,8 +88,8 @@ export default function App() {
         Demetrio: 'Demetrio2025!', 
         Gerardo: 'Gerardo2025!' 
       };
-      if (localDef[loginUsername] && localDef[loginUsername] === loginPassword) {
-        loginSuccess(loginUsername);
+      if (localDef[cleanUsername] && localDef[cleanUsername] === loginPassword) {
+        loginSuccess(cleanUsername);
       } else {
         setErrorMsg('Error de conexión. Verifique sus credenciales.');
       }
@@ -121,7 +122,7 @@ export default function App() {
 
   if (view === 'login') {
     return (
-      <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', padding: '20px', background: 'radial-gradient(circle at top, #1e1b4b, #090d16)' }}>
+      <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', padding: '20px', background: 'radial-gradient(circle at top, #3b0712, #0b0f19)' }}>
         <div style={{ width: '100%', maxWidth: '420px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '30px', boxShadow: 'var(--shadow)' }}>
           <div style={{ textAlign: 'center', marginBottom: '25px' }}>
             <div style={{ display: 'inline-flex', padding: '12px', background: 'var(--brand-red-glow)', borderRadius: '50%', marginBottom: '10px', boxShadow: 'var(--shadow-glow)' }}>

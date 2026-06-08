@@ -38,7 +38,7 @@ export default function ValidatorDashboard() {
 
       if (data && data.length > 0) {
         // Group unique
-        const dates = [...new Set(data.map(d => d.fecha))].sort((a, b) => {
+        const dates = [...new Set(data.map(d => (d.fecha || '').replace(/[^\d/]/g, '')))].sort((a, b) => {
           const k = (s) => {
             const p = s.split('/');
             return p[2] + p[1] + p[0]; // YYYYMMDD sorting
@@ -90,60 +90,82 @@ export default function ValidatorDashboard() {
 
     const reader = new FileReader();
     reader.onload = (evt) => {
-      const text = evt.target.result;
-      const lines = text.split(/\r?\n/);
-      const parsed = [];
+      try {
+        const text = evt.target.result;
+        const lines = text.split(/\r?\n/);
+        const parsed = [];
 
-      lines.forEach((line, idx) => {
-        // Skip header if matches text headers
-        if (idx === 0 && (line.toLowerCase().includes('dni') || line.toLowerCase().includes('fecha'))) {
-          return;
-        }
+        lines.forEach((line, idx) => {
+          const cleanLine = line.replace(/^\uFEFF/, '').trim(); // Remove UTF-8 BOM if present
+          if (!cleanLine) return;
 
-        const cols = line.split(/[;,\t]/); // Split by semicolon, comma or tab
-        if (cols.length >= 2) {
-          const rawFecha = cols[0].trim();
-          const rawDni = cols[1].trim();
-          const nombre = cols[2] ? cols[2].trim() : '';
-          const entrada = cols[3] ? cols[3].trim() : '';
-          const salida = cols[4] ? cols[4].trim() : '';
-          const horas = cols[5] ? parseFloat(cols[5].trim()) : null;
+          // Skip header if matches text headers
+          const lowerLine = cleanLine.toLowerCase();
+          if (lowerLine.includes('dni') || lowerLine.includes('fecha') || lowerLine.includes('nombre') || lowerLine.includes('entrada') || lowerLine.includes('salida')) {
+            return;
+          }
 
-          const dni = normalizarDni(rawDni);
+          const cols = cleanLine.split(/[;,\t]/).map(col => col.replace(/['"]/g, '').trim());
+          if (cols.length >= 2) {
+            const rawFecha = cols[0];
+            const rawDni = cols[1];
+            const nombre = cols[2] ? cols[2] : '';
+            const entrada = cols[3] ? cols[3] : '';
+            const salida = cols[4] ? cols[4] : '';
+            const rawHoras = cols[5] ? cols[5] : '';
 
-          // Normalize fecha format if it uses dashes or other delimiters
-          let fecha = rawFecha.replace(/-/g, '/'); // e.g. YYYY/MM/DD or DD/MM/YYYY
-          const parts = fecha.split('/');
-          if (parts.length === 3) {
-            if (parts[0].length === 4) {
-              // YYYY/MM/DD -> DD/MM/YYYY
-              fecha = `${parts[2]}/${parts[1]}/${parts[0]}`;
-            } else {
-              // Ensure zero pads
-              fecha = `${parts[0].padStart(2, '0')}/${parts[1].padStart(2, '0')}/${parts[2]}`;
+            const dni = normalizarDni(rawDni);
+            if (!dni) return;
+
+            // Normalize fecha format if it uses dashes or other delimiters
+            let fecha = rawFecha.replace(/[-.\s]/g, '/'); // replace dashes, dots, spaces with slash
+            const parts = fecha.split('/');
+            if (parts.length === 3) {
+              if (parts[0].length === 4) {
+                // YYYY/MM/DD -> DD/MM/YYYY
+                fecha = `${parts[2].padStart(2, '0')}/${parts[1].padStart(2, '0')}/${parts[0]}`;
+              } else {
+                // Ensure zero pads
+                fecha = `${parts[0].padStart(2, '0')}/${parts[1].padStart(2, '0')}/${parts[2]}`;
+              }
+            }
+            fecha = fecha.replace(/[^\d/]/g, ''); // strip any invisible unicode characters
+
+            let horas = null;
+            if (rawHoras) {
+              const parsedH = parseFloat(rawHoras.replace(',', '.')); // support comma decimals
+              if (!isNaN(parsedH)) {
+                horas = parsedH;
+              }
+            }
+
+            if (dni && fecha) {
+              parsed.push({
+                fecha,
+                dni,
+                nombre: nombre.toUpperCase(),
+                entrada,
+                salida,
+                horas
+              });
             }
           }
+        });
 
-          if (dni && fecha) {
-            parsed.push({
-              fecha,
-              dni,
-              nombre: nombre.toUpperCase(),
-              entrada,
-              salida,
-              horas: isNaN(horas) || horas === null ? null : horas
-            });
-          }
+        if (parsed.length > 0) {
+          setFileData(parsed);
+          setUploadToast({ text: `Se leyeron ${parsed.length} registros del reloj. Listos para cargar.`, type: 'ok' });
+        } else {
+          setFileData([]);
+          setUploadToast({ text: 'No se encontraron registros válidos en el archivo. Revise el formato.', type: 'error' });
         }
-      });
-
-      if (parsed.length > 0) {
-        setFileData(parsed);
-        setUploadToast({ text: `Se leyeron ${parsed.length} registros del reloj. Listos para cargar.`, type: 'ok' });
-      } else {
+      } catch (err) {
         setFileData([]);
-        setUploadToast({ text: 'No se encontraron registros válidos en el archivo. Revise el formato.', type: 'error' });
+        setUploadToast({ text: 'Error al procesar archivo: ' + err.message, type: 'error' });
       }
+    };
+    reader.onerror = () => {
+      setUploadToast({ text: 'Error al leer el archivo.', type: 'error' });
     };
     reader.readAsText(file, 'UTF-8');
   };
@@ -331,14 +353,14 @@ export default function ValidatorDashboard() {
           </h3>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div 
-              onClick={() => document.getElementById('txt-reloj-upload').click()}
-              style={{ border: '2px dashed var(--border)', borderRadius: 'var(--radius-md)', padding: '20px', textAlign: 'center', cursor: 'pointer', background: 'rgba(255,255,255,0.01)', transition: '0.2s' }}
+            <label 
+              htmlFor="txt-reloj-upload"
+              style={{ display: 'block', border: '2px dashed var(--border)', borderRadius: 'var(--radius-md)', padding: '20px', textAlign: 'center', cursor: 'pointer', background: 'rgba(255,255,255,0.01)', transition: '0.2s' }}
               onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--brand-red)'}
               onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
             >
-              <Upload size={24} color="var(--txt-secondary)" style={{ marginBottom: '8px' }} />
-              <div style={{ fontSize: '13.5px', fontWeight: 600 }}>{fileName ? `Archivo: ${fileName}` : 'Seleccione archivo de marcaciones de reloj'}</div>
+              <Upload size={24} color="var(--txt-secondary)" style={{ display: 'block', margin: '0 auto 8px' }} />
+              <div style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--txt)' }}>{fileName ? `Archivo: ${fileName}` : 'Seleccione archivo de marcaciones de reloj'}</div>
               <div style={{ fontSize: '11px', color: 'var(--txt-muted)', marginTop: '3px' }}>Formato: Fecha, DNI, Nombre, Entrada, Salida, Horas</div>
               <input 
                 type="file" 
@@ -347,7 +369,7 @@ export default function ValidatorDashboard() {
                 style={{ display: 'none' }}
                 onChange={handleFileUpload}
               />
-            </div>
+            </label>
 
             {fileData.length > 0 && (
               <button 

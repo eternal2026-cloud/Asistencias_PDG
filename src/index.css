@@ -1,20 +1,21 @@
 /* ═════════════════════════════════════════════════
    ESTILOS GLOBALES & VARIABLES - EL PEDREGAL S.A.
+   PALETA ROJIBLANCA DE MODO OSCURO PREMIUM
    ═════════════════════════════════════════════════ */
 :root {
-  --bg-app: #090d16;
-  --bg-card: #121824;
-  --bg-card-hover: #1b2334;
-  --border: rgba(255, 255, 255, 0.06);
-  --border-focus: rgba(239, 68, 68, 0.4);
+  --bg-app: #0b0f19;          /* Fondo oscuro profundo azulado/negro */
+  --bg-card: #151c2c;         /* Fondo de tarjetas gris oscuro azulado */
+  --bg-card-hover: #1e293f;   /* Hover de tarjetas */
+  --border: rgba(255, 255, 255, 0.09); /* Bordes blancos con opacidad */
+  --border-focus: #c8102e;     /* Borde rojo de foco */
   
-  --txt: #f8fafc;
-  --txt-secondary: #94a3b8;
-  --txt-muted: #64748b;
+  --txt: #ffffff;             /* Texto principal en blanco puro */
+  --txt-secondary: #e2e8f0;   /* Texto secundario gris muy claro */
+  --txt-muted: #94a3b8;       /* Texto atenuado slate */
   
-  --brand-red: #c8102e;
-  --brand-red-glow: rgba(200, 16, 46, 0.2);
-  --brand-red-hover: #e01538;
+  --brand-red: #c8102e;       /* Rojo de El Pedregal */
+  --brand-red-glow: rgba(200, 16, 46, 0.25); /* Resplandor rojo */
+  --brand-red-hover: #e01c3f; /* Rojo hover */
   
   --grn: #10b981;
   --grn-glow: rgba(16, 185, 129, 0.15);
@@ -25,13 +26,13 @@
   --font-title: 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
   
-  --radius-lg: 16px;
-  --radius-md: 12px;
-  --radius-sm: 8px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 6px;
   --radius-xs: 4px;
   
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-  --shadow-glow: 0 0 15px rgba(200, 16, 46, 0.3);
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 15px rgba(200, 16, 46, 0.35);
 }
 
 * {
@@ -50,13 +51,61 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Custom Scrollbar for modern feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-card-hover);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-red);
+}
+
 h1, h2, h3, h4 {
   font-family: var(--font-title);
   font-weight: 700;
+  color: #ffffff;
 }
 
 input, button, select, textarea {
   font-family: inherit;
+}
+
+/* Custom styled inputs & selects */
+input[type="text"], input[type="password"], input[type="date"], input[type="time"], select {
+  background-color: rgba(0, 0, 0, 0.25) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+input:focus, select:focus {
+  border-color: var(--brand-red) !important;
+  box-shadow: 0 0 0 2px var(--brand-red-glow) !important;
+  outline: none !important;
+}
+
+/* Button styles */
+.btn-primary {
+  background-color: var(--brand-red);
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  transition: all 0.15s ease-in-out;
+}
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--brand-red-hover);
+  box-shadow: var(--shadow-glow);
+}
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
 }
 
 /* Spinner */

@@ -7,6 +7,30 @@ import {
   UserPlus, Search, Briefcase, FileSpreadsheet, ListTodo, Users, CheckCircle2, AlertTriangle, ChevronRight
 } from 'lucide-react';
 
+// Deterministic Date formatting without unicode/locale bugs (fixes mobile issues)
+const getTodayStr = () => {
+  const d = new Date();
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+};
+
+const formatDateTime = (isoString) => {
+  if (!isoString) return '—';
+  try {
+    const d = new Date(isoString);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    const hours = String(d.getHours()).padStart(2, '0');
+    const minutes = String(d.getMinutes()).padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  } catch (e) {
+    return '—';
+  }
+};
+
 export default function SupervisorDashboard({ supervisor }) {
   const [activeTab, setActiveTab] = useState('nuevo'); // 'nuevo', 'excel', 'hoy', 'personal'
   const [dniMode, setDniMode] = useState('kp'); // 'kp' o 'qr'
@@ -108,6 +132,17 @@ export default function SupervisorDashboard({ supervisor }) {
       }
     };
   }, [qrReader]);
+
+  // Auto stop scanning when tab changes
+  useEffect(() => {
+    if (activeTab !== 'nuevo') {
+      if (isScanning && qrReader) {
+        qrReader.stop()
+          .then(() => setIsScanning(false))
+          .catch(e => console.error(e));
+      }
+    }
+  }, [activeTab]);
 
   const showToast = (text, type = 'ok') => {
     setToastMsg({ text, type });
@@ -317,7 +352,7 @@ export default function SupervisorDashboard({ supervisor }) {
 
     setSavingIndividual(true);
     try {
-      const todayStr = new Date().toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const todayStr = getTodayStr();
       
       // 1. Ensure operario exists in DB
       await supabase.from('operarios').upsert({
@@ -502,7 +537,7 @@ export default function SupervisorDashboard({ supervisor }) {
     }
 
     try {
-      const todayStr = new Date().toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const todayStr = getTodayStr();
       
       // Save all to database
       for (const r of activeRows) {
@@ -571,7 +606,7 @@ export default function SupervisorDashboard({ supervisor }) {
   const fetchTodayLogs = async () => {
     setLoadingToday(true);
     try {
-      const todayStr = new Date().toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      const todayStr = getTodayStr();
       const { data, error } = await supabase
         .from('asistencia')
         .select('*')
@@ -717,27 +752,30 @@ export default function SupervisorDashboard({ supervisor }) {
 
             {/* QR Scanner Container */}
             {dniMode === 'qr' && (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-                {isScanning ? (
-                  <div style={{ textAlign: 'center', width: '100%' }}>
-                    <div className="qr-scanner-box">
-                      <div id="qr-reader" style={{ width: '100%', height: '100%', background: '#000' }}></div>
-                      <div className="corner top-left"></div>
-                      <div className="corner top-right"></div>
-                      <div className="corner bottom-left"></div>
-                      <div className="corner bottom-right"></div>
-                      <div className="qr-laser"></div>
-                    </div>
-                    <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '10px' }}>
-                      <button type="button" onClick={changeCamera} style={{ padding: '8px 12px', background: 'var(--bg-app)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12px' }}>
-                        Cambiar Cámara
-                      </button>
-                      <button type="button" onClick={stopCameraScan} style={{ padding: '8px 12px', background: 'rgba(248,113,113,0.15)', border: 'none', color: '#f87171', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>
-                        Detener Escaneo
-                      </button>
-                    </div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px', width: '100%' }}>
+                
+                {/* Always keep the scanner container in the DOM, just hide it if not scanning */}
+                <div style={{ display: isScanning ? 'block' : 'none', textAlign: 'center', width: '100%' }}>
+                  <div className="qr-scanner-box">
+                    <div id="qr-reader" style={{ width: '100%', height: '100%', background: '#000' }}></div>
+                    <div className="corner top-left"></div>
+                    <div className="corner top-right"></div>
+                    <div className="corner bottom-left"></div>
+                    <div className="corner bottom-right"></div>
+                    <div className="qr-laser"></div>
                   </div>
-                ) : (
+                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '10px' }}>
+                    <button type="button" onClick={changeCamera} style={{ padding: '8px 12px', background: 'var(--bg-app)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12px' }}>
+                      Cambiar Cámara
+                    </button>
+                    <button type="button" onClick={stopCameraScan} style={{ padding: '8px 12px', background: 'rgba(248,113,113,0.15)', border: 'none', color: '#f87171', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>
+                      Detener Escaneo
+                    </button>
+                  </div>
+                </div>
+
+                {/* Show the camera activation button and file upload if NOT scanning */}
+                {!isScanning && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', maxWidth: '320px' }}>
                     <button 
                       type="button"
@@ -749,14 +787,14 @@ export default function SupervisorDashboard({ supervisor }) {
                     
                     <div style={{ textAlign: 'center', fontSize: '12px', color: 'var(--txt-muted)', margin: '4px 0' }}>ó cargue una foto</div>
 
-                    <div 
-                      onClick={() => document.getElementById('qr-upload-input').click()}
-                      style={{ border: '2px dashed var(--border)', borderRadius: 'var(--radius-md)', padding: '20px', textAlign: 'center', cursor: 'pointer', background: 'rgba(255,255,255,0.01)', transition: '0.2s' }}
+                    <label 
+                      htmlFor="qr-upload-input"
+                      style={{ display: 'block', border: '2px dashed var(--border)', borderRadius: 'var(--radius-md)', padding: '20px', textAlign: 'center', cursor: 'pointer', background: 'rgba(255,255,255,0.01)', transition: '0.2s' }}
                       onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--brand-red)'}
                       onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
                     >
-                      <Upload size={24} color="var(--txt-secondary)" style={{ marginBottom: '8px' }} />
-                      <div style={{ fontSize: '13px', fontWeight: 600 }}>Subir Imagen de Fotocheck</div>
+                      <Upload size={24} color="var(--txt-secondary)" style={{ display: 'block', margin: '0 auto 8px' }} />
+                      <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--txt)' }}>Subir Imagen de Fotocheck</div>
                       <div style={{ fontSize: '11px', color: 'var(--txt-muted)', marginTop: '3px' }}>PNG, JPG o JPEG</div>
                       <input 
                         type="file" 
@@ -765,7 +803,7 @@ export default function SupervisorDashboard({ supervisor }) {
                         style={{ display: 'none' }}
                         onChange={handleImageUpload}
                       />
-                    </div>
+                    </label>
                   </div>
                 )}
 
@@ -1251,7 +1289,7 @@ export default function SupervisorDashboard({ supervisor }) {
                     <div style={{ fontSize: '12px', color: 'var(--txt-secondary)', marginTop: '2px' }}>DNI: {row.dni}</div>
                   </div>
                   <div style={{ fontSize: '11px', color: 'var(--txt-muted)' }}>
-                    Último registro: {new Date(row.ultima_vez).toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                    Último registro: {formatDateTime(row.ultima_vez)}
                   </div>
                 </div>
               ))}

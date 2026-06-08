@@ -174,6 +174,13 @@ export default function SupervisorDashboard({ supervisor }) {
     }
   };
 
+  const handleClearScannedDni = () => {
+    setScannedDni('');
+    setDni('');
+    setNombre('');
+    setIsNewWorker(false);
+  };
+
   // DNI Lookup
   const lookupDNI = async (targetDni) => {
     try {
@@ -650,25 +657,25 @@ export default function SupervisorDashboard({ supervisor }) {
       <div style={{ display: 'flex', gap: '8px', borderBottom: '1px solid var(--border)', paddingBottom: '12px', overflowX: 'auto' }}>
         <button 
           onClick={() => setActiveTab('nuevo')}
-          style={{ padding: '10px 18px', background: activeTab === 'nuevo' ? 'var(--brand-red)' : 'var(--bg-card)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', transition: '0.15s' }}
+          style={{ padding: '10px 18px', background: activeTab === 'nuevo' ? 'var(--brand-red)' : 'var(--bg-card)', border: '1px solid var(--border)', color: activeTab === 'nuevo' ? '#fff' : 'var(--txt-secondary)', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', transition: '0.15s' }}
         >
           <UserPlus size={16} /> Individual
         </button>
         <button 
           onClick={() => setActiveTab('excel')}
-          style={{ padding: '10px 18px', background: activeTab === 'excel' ? 'var(--brand-red)' : 'var(--bg-card)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', transition: '0.15s' }}
+          style={{ padding: '10px 18px', background: activeTab === 'excel' ? 'var(--brand-red)' : 'var(--bg-card)', border: '1px solid var(--border)', color: activeTab === 'excel' ? '#fff' : 'var(--txt-secondary)', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', transition: '0.15s' }}
         >
           <FileSpreadsheet size={16} /> Registro Excel
         </button>
         <button 
           onClick={() => setActiveTab('hoy')}
-          style={{ padding: '10px 18px', background: activeTab === 'hoy' ? 'var(--brand-red)' : 'var(--bg-card)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', transition: '0.15s' }}
+          style={{ padding: '10px 18px', background: activeTab === 'hoy' ? 'var(--brand-red)' : 'var(--bg-card)', border: '1px solid var(--border)', color: activeTab === 'hoy' ? '#fff' : 'var(--txt-secondary)', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', transition: '0.15s' }}
         >
           <ListTodo size={16} /> Resumen Hoy
         </button>
         <button 
           onClick={() => setActiveTab('personal')}
-          style={{ padding: '10px 18px', background: activeTab === 'personal' ? 'var(--brand-red)' : 'var(--bg-card)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', transition: '0.15s' }}
+          style={{ padding: '10px 18px', background: activeTab === 'personal' ? 'var(--brand-red)' : 'var(--bg-card)', border: '1px solid var(--border)', color: activeTab === 'personal' ? '#fff' : 'var(--txt-secondary)', borderRadius: 'var(--radius-md)', cursor: 'pointer', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13.5px', transition: '0.15s' }}
         >
           <Users size={16} /> Mi Personal
         </button>
@@ -687,16 +694,16 @@ export default function SupervisorDashboard({ supervisor }) {
                 <h3 style={{ fontSize: '16px', fontWeight: 700 }}>Identificación del Operario</h3>
                 <p style={{ fontSize: '12px', color: 'var(--txt-secondary)' }}>Seleccione teclado numérico o escáner QR</p>
               </div>
-              <div style={{ display: 'flex', background: 'rgba(255,255,255,0.03)', padding: '3px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
+              <div style={{ display: 'flex', background: 'rgba(0,0,0,0.03)', padding: '3px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
                 <button 
                   onClick={() => { setDniMode('kp'); stopCameraScan(); }}
-                  style={{ padding: '6px 12px', background: dniMode === 'kp' ? 'var(--brand-red)' : 'transparent', border: 'none', color: '#fff', borderRadius: 'var(--radius-xs)', cursor: 'pointer', fontSize: '12px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '5px' }}
+                  style={{ padding: '6px 12px', background: dniMode === 'kp' ? 'var(--brand-red)' : 'transparent', border: 'none', color: dniMode === 'kp' ? '#fff' : 'var(--txt-secondary)', borderRadius: 'var(--radius-xs)', cursor: 'pointer', fontSize: '12px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '5px' }}
                 >
                   <Keyboard size={14} /> Teclado
                 </button>
                 <button 
                   onClick={() => setDniMode('qr')}
-                  style={{ padding: '6px 12px', background: dniMode === 'qr' ? 'var(--brand-red)' : 'transparent', border: 'none', color: '#fff', borderRadius: 'var(--radius-xs)', cursor: 'pointer', fontSize: '12px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '5px' }}
+                  style={{ padding: '6px 12px', background: dniMode === 'qr' ? 'var(--brand-red)' : 'transparent', border: 'none', color: dniMode === 'qr' ? '#fff' : 'var(--txt-secondary)', borderRadius: 'var(--radius-xs)', cursor: 'pointer', fontSize: '12px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '5px' }}
                 >
                   <Camera size={14} /> Cámara QR
                 </button>
@@ -707,7 +714,7 @@ export default function SupervisorDashboard({ supervisor }) {
             {dniMode === 'kp' && (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
                 {/* DNI Display */}
-                <div style={{ width: '100%', maxWidth: '280px', height: '54px', background: 'rgba(0,0,0,0.25)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', fontWeight: 700, letterSpacing: '4px', color: 'var(--brand-red)' }}>
+                <div style={{ width: '100%', maxWidth: '280px', height: '54px', background: 'rgba(0,0,0,0.04)', border: '1.5px solid var(--border)', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '26px', fontWeight: 700, letterSpacing: '4px', color: 'var(--brand-red)' }}>
                   {dni || '—'}
                 </div>
 
@@ -728,7 +735,7 @@ export default function SupervisorDashboard({ supervisor }) {
                   <button 
                     type="button"
                     onClick={handleKeypadDelete}
-                    style={{ height: '54px', background: 'rgba(248, 113, 113, 0.08)', border: '1px solid rgba(248, 113, 113, 0.15)', borderRadius: 'var(--radius-md)', color: '#f87171', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                    style={{ height: '54px', background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.2)', borderRadius: 'var(--radius-md)', color: '#ef4444', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                   >
                     Borrar
                   </button>
@@ -743,7 +750,7 @@ export default function SupervisorDashboard({ supervisor }) {
                     type="button"
                     onClick={() => { if (dni.length === 8) lookupDNI(dni); }}
                     disabled={dni.length !== 8}
-                    style={{ height: '54px', background: dni.length === 8 ? 'var(--grn)' : 'var(--bg-app)', border: dni.length === 8 ? 'none' : '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: dni.length === 8 ? '#fff' : 'var(--txt-muted)', cursor: dni.length === 8 ? 'pointer' : 'default', fontWeight: 700, fontSize: '15px' }}
+                    style={{ height: '54px', background: dni.length === 8 ? 'var(--grn)' : 'var(--bg-card)', border: dni.length === 8 ? 'none' : '1px solid var(--border)', borderRadius: 'var(--radius-md)', color: dni.length === 8 ? '#fff' : 'var(--txt-muted)', cursor: dni.length === 8 ? 'pointer' : 'default', fontWeight: 700, fontSize: '15px' }}
                   >
                     OK
                   </button>
@@ -766,7 +773,7 @@ export default function SupervisorDashboard({ supervisor }) {
                     <div className="qr-laser"></div>
                   </div>
                   <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '10px' }}>
-                    <button type="button" onClick={changeCamera} style={{ padding: '8px 12px', background: 'var(--bg-app)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12px' }}>
+                    <button type="button" onClick={changeCamera} style={{ padding: '8px 12px', background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--txt)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12px' }}>
                       Cambiar Cámara
                     </button>
                     <button type="button" onClick={stopCameraScan} style={{ padding: '8px 12px', background: 'rgba(248,113,113,0.15)', border: 'none', color: '#f87171', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12px', fontWeight: 600 }}>
@@ -790,7 +797,7 @@ export default function SupervisorDashboard({ supervisor }) {
 
                     <label 
                       htmlFor="qr-upload-input"
-                      style={{ display: 'block', border: '2px dashed var(--border)', borderRadius: 'var(--radius-md)', padding: '20px', textAlign: 'center', cursor: 'pointer', background: 'rgba(255,255,255,0.01)', transition: '0.2s' }}
+                      style={{ display: 'block', border: '2px dashed var(--border)', borderRadius: 'var(--radius-md)', padding: '20px', textAlign: 'center', cursor: 'pointer', background: 'rgba(0,0,0,0.01)', transition: '0.2s' }}
                       onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--brand-red)'}
                       onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
                     >
@@ -809,8 +816,21 @@ export default function SupervisorDashboard({ supervisor }) {
                 )}
 
                 {scannedDni && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--grn-glow)', border: '1px solid rgba(16, 185, 129, 0.3)', padding: '10px 14px', borderRadius: 'var(--radius-sm)', color: 'var(--grn)', fontWeight: 600, fontSize: '14px' }}>
-                    <CheckCircle2 size={16} /> QR Detectado: {scannedDni}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', maxWidth: '320px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--grn-glow)', border: '1px solid rgba(16, 185, 129, 0.3)', padding: '10px 14px', borderRadius: 'var(--radius-sm)', color: 'var(--grn)', fontWeight: 600, fontSize: '14px' }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <CheckCircle2 size={16} /> QR: {scannedDni}
+                      </span>
+                      <button 
+                        type="button" 
+                        onClick={handleClearScannedDni} 
+                        style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.2)', color: '#ef4444', cursor: 'pointer', fontWeight: 600, fontSize: '11px', padding: '4px 10px', borderRadius: 'var(--radius-xs)', transition: '0.15s' }}
+                        onMouseEnter={(e) => e.target.style.background = 'rgba(239, 68, 68, 0.2)'}
+                        onMouseLeave={(e) => e.target.style.background = 'rgba(239, 68, 68, 0.1)'}
+                      >
+                        Limpiar / Volver a Escanear
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -825,7 +845,7 @@ export default function SupervisorDashboard({ supervisor }) {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--txt-secondary)', marginBottom: '5px' }}>DNI Operario</label>
-                  <input type="text" readOnly value={dni} placeholder="Ingrese DNI arriba" style={{ width: '100%', padding: '11px 14px', background: 'rgba(0,0,0,0.15)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontSize: '15px', outline: 'none' }} />
+                  <input type="text" readOnly value={dni} placeholder="Ingrese DNI arriba" style={{ width: '100%', padding: '11px 14px', background: 'rgba(0,0,0,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', fontSize: '15px', outline: 'none' }} />
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: '12px', fontWeight: 600, color: 'var(--txt-secondary)', marginBottom: '5px' }}>Nombre Completo</label>
@@ -835,7 +855,7 @@ export default function SupervisorDashboard({ supervisor }) {
                     onChange={(e) => setNombre(e.target.value)} 
                     readOnly={!dni}
                     placeholder={dni ? 'Ingrese nombre completo' : 'Ingrese DNI primero'} 
-                    style={{ width: '100%', padding: '11px 14px', background: dni ? 'rgba(0,0,0,0.25)' : 'rgba(0,0,0,0.1)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontSize: '15px', outline: 'none' }} 
+                    style={{ width: '100%', padding: '11px 14px', background: dni ? 'rgba(0,0,0,0.03)' : 'rgba(0,0,0,0.01)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', fontSize: '15px', outline: 'none' }} 
                   />
                 </div>
               </div>
@@ -867,7 +887,7 @@ export default function SupervisorDashboard({ supervisor }) {
                         value={labor} 
                         onChange={(e) => setLabor(e.target.value)} 
                         placeholder="Ej: COS-002" 
-                        style={{ width: '100%', padding: '11px 14px', background: 'rgba(0,0,0,0.25)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontSize: '15px', outline: 'none' }} 
+                        style={{ width: '100%', padding: '11px 14px', background: 'rgba(0,0,0,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', fontSize: '15px', outline: 'none' }} 
                         onFocus={(e) => e.target.style.borderColor = 'var(--brand-red)'}
                         onBlur={(e) => e.target.style.borderColor = 'var(--border)'}
                       />
@@ -879,7 +899,7 @@ export default function SupervisorDashboard({ supervisor }) {
                         value={lote} 
                         onChange={(e) => setLote(e.target.value)} 
                         placeholder="Ej: LOTE-B" 
-                        style={{ width: '100%', padding: '11px 14px', background: 'rgba(0,0,0,0.25)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontSize: '15px', outline: 'none' }} 
+                        style={{ width: '100%', padding: '11px 14px', background: 'rgba(0,0,0,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', fontSize: '15px', outline: 'none' }} 
                         onFocus={(e) => e.target.style.borderColor = 'var(--brand-red)'}
                         onBlur={(e) => e.target.style.borderColor = 'var(--border)'}
                       />
@@ -893,7 +913,7 @@ export default function SupervisorDashboard({ supervisor }) {
                         type="time" 
                         value={hi} 
                         onChange={(e) => setHi(e.target.value)} 
-                        style={{ width: '100%', padding: '11px 14px', background: 'rgba(0,0,0,0.25)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontSize: '15px', outline: 'none' }} 
+                        style={{ width: '100%', padding: '11px 14px', background: 'rgba(0,0,0,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', fontSize: '15px', outline: 'none' }} 
                       />
                     </div>
                     <div>
@@ -902,7 +922,7 @@ export default function SupervisorDashboard({ supervisor }) {
                         type="time" 
                         value={hf} 
                         onChange={(e) => setHf(e.target.value)} 
-                        style={{ width: '100%', padding: '11px 14px', background: 'rgba(0,0,0,0.25)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontSize: '15px', outline: 'none' }} 
+                        style={{ width: '100%', padding: '11px 14px', background: 'rgba(0,0,0,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', fontSize: '15px', outline: 'none' }} 
                       />
                     </div>
                   </div>
@@ -914,7 +934,7 @@ export default function SupervisorDashboard({ supervisor }) {
                       <button 
                         type="button" 
                         onClick={addExtraLabor} 
-                        style={{ padding: '6px 12px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '4px' }}
+                        style={{ padding: '6px 12px', background: 'rgba(0,0,0,0.03)', border: '1px solid var(--border)', color: 'var(--txt)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '4px' }}
                       >
                         <Plus size={14} /> Añadir labor
                       </button>
@@ -922,7 +942,7 @@ export default function SupervisorDashboard({ supervisor }) {
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                       {extraLabors.map((ex, index) => (
-                        <div key={ex.id} style={{ background: 'rgba(0,0,0,0.15)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '12px', position: 'relative' }}>
+                        <div key={ex.id} style={{ background: 'rgba(0,0,0,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '12px', position: 'relative' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                             <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--brand-red)' }}>LABOR ADICIONAL #{index + 1}</span>
                             <button 
@@ -940,14 +960,14 @@ export default function SupervisorDashboard({ supervisor }) {
                               value={ex.labor} 
                               onChange={(e) => updateExtraLabor(ex.id, 'labor', e.target.value)} 
                               placeholder="Labor (Ej: COS-002)" 
-                              style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-app)', border: '1px solid var(--border)', borderRadius: 'var(--radius-xs)', color: '#fff', fontSize: '13px', outline: 'none' }}
+                              style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-xs)', color: 'var(--txt)', fontSize: '13px', outline: 'none' }}
                             />
                             <input 
                               type="text" 
                               value={ex.lote} 
                               onChange={(e) => updateExtraLabor(ex.id, 'lote', e.target.value)} 
                               placeholder="Lote" 
-                              style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-app)', border: '1px solid var(--border)', borderRadius: 'var(--radius-xs)', color: '#fff', fontSize: '13px', outline: 'none' }}
+                              style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-xs)', color: 'var(--txt)', fontSize: '13px', outline: 'none' }}
                             />
                           </div>
 
@@ -956,13 +976,13 @@ export default function SupervisorDashboard({ supervisor }) {
                               type="time" 
                               value={ex.hi} 
                               onChange={(e) => updateExtraLabor(ex.id, 'hi', e.target.value)} 
-                              style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-app)', border: '1px solid var(--border)', borderRadius: 'var(--radius-xs)', color: '#fff', fontSize: '13px', outline: 'none' }}
+                              style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-xs)', color: 'var(--txt)', fontSize: '13px', outline: 'none' }}
                             />
                             <input 
                               type="time" 
                               value={ex.hf} 
                               onChange={(e) => updateExtraLabor(ex.id, 'hf', e.target.value)} 
-                              style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-app)', border: '1px solid var(--border)', borderRadius: 'var(--radius-xs)', color: '#fff', fontSize: '13px', outline: 'none' }}
+                              style={{ width: '100%', padding: '8px 10px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-xs)', color: 'var(--txt)', fontSize: '13px', outline: 'none' }}
                             />
                           </div>
                         </div>
@@ -1016,14 +1036,14 @@ export default function SupervisorDashboard({ supervisor }) {
               <button 
                 type="button" 
                 onClick={clearExcelTable}
-                style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12.5px', fontWeight: 600 }}
+                style={{ padding: '8px 12px', background: 'rgba(0,0,0,0.02)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12.5px', fontWeight: 600 }}
               >
                 Limpiar Tabla
               </button>
               <button 
                 type="button" 
                 onClick={addExcelRow}
-                style={{ padding: '8px 12px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12.5px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}
+                style={{ padding: '8px 12px', background: 'rgba(0,0,0,0.03)', border: '1px solid var(--border)', color: 'var(--txt)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12.5px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}
               >
                 <Plus size={14} /> Añadir Fila
               </button>
@@ -1034,7 +1054,7 @@ export default function SupervisorDashboard({ supervisor }) {
           <div style={{ overflowX: 'auto', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '850px' }}>
               <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid var(--border)' }}>
+                <tr style={{ background: 'rgba(0,0,0,0.02)', borderBottom: '1px solid var(--border)' }}>
                   <th style={{ padding: '12px 10px', fontSize: '12px', fontWeight: 700, color: 'var(--txt-secondary)', width: '40px', textAlign: 'center' }}>#</th>
                   <th style={{ padding: '12px 10px', fontSize: '12px', fontWeight: 700, color: 'var(--txt-secondary)', width: '110px' }}>DNI</th>
                   <th style={{ padding: '12px 10px', fontSize: '12px', fontWeight: 700, color: 'var(--txt-secondary)' }}>Operario (Nombre completo)</th>
@@ -1063,7 +1083,7 @@ export default function SupervisorDashboard({ supervisor }) {
                           maxLength={8}
                           value={row.dni}
                           onChange={(e) => updateExcelRow(row.id, 'dni', e.target.value)}
-                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: '#fff', fontSize: '14px', outline: 'none', borderBottom: '1px solid transparent' }}
+                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: 'var(--txt)', fontSize: '14px', outline: 'none', borderBottom: '1px solid transparent' }}
                           onFocus={(e) => e.target.style.borderBottomColor = 'var(--brand-red)'}
                           onBlur={(e) => e.target.style.borderBottomColor = 'transparent'}
                         />
@@ -1076,19 +1096,19 @@ export default function SupervisorDashboard({ supervisor }) {
                           placeholder="Nombre Completo"
                           value={row.nombre}
                           onChange={(e) => handleExcelNameInput(row.id, e.target.value)}
-                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: '#fff', fontSize: '14px', outline: 'none', borderBottom: '1px solid transparent' }}
+                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: 'var(--txt)', fontSize: '14px', outline: 'none', borderBottom: '1px solid transparent' }}
                           onFocus={(e) => e.target.style.borderBottomColor = 'var(--brand-red)'}
                           onBlur={(e) => e.target.style.borderBottomColor = 'transparent'}
                         />
                         {/* Autocomplete Dropdown */}
                         {row.suggestions && row.suggestions.length > 0 && (
-                          <div style={{ position: 'absolute', top: '100%', left: '8px', right: '8px', zIndex: 100, background: '#161d2d', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', overflow: 'hidden', boxShadow: '0 8px 16px rgba(0,0,0,0.5)' }}>
+                          <div style={{ position: 'absolute', top: '100%', left: '8px', right: '8px', zIndex: 100, background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', overflow: 'hidden', boxShadow: '0 8px 16px rgba(0,0,0,0.1)' }}>
                             {row.suggestions.map(s => (
                               <div 
                                 key={s.dni}
                                 onMouseDown={() => pickExcelSuggestion(row.id, s.dni, s.nombre_completo)}
-                                style={{ padding: '8px 12px', fontSize: '13px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.02)' }}
-                                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}
+                                style={{ padding: '8px 12px', fontSize: '13px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border)' }}
+                                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0,0,0,0.04)'}
                                 onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                               >
                                 <span style={{ fontWeight: 600 }}>{s.nombre_completo}</span>
@@ -1104,7 +1124,7 @@ export default function SupervisorDashboard({ supervisor }) {
                         <select 
                           value={row.estado}
                           onChange={(e) => updateExcelRow(row.id, 'estado', e.target.value)}
-                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: '#fff', fontSize: '14px', outline: 'none', cursor: 'pointer' }}
+                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: 'var(--txt)', fontSize: '14px', outline: 'none', cursor: 'pointer' }}
                         >
                           <option value="Trabajo" style={{ background: 'var(--bg-card)' }}>Trabajo</option>
                           <option value="Descanso" style={{ background: 'var(--bg-card)' }}>Descanso</option>
@@ -1120,7 +1140,7 @@ export default function SupervisorDashboard({ supervisor }) {
                           disabled={row.estado !== 'Trabajo'}
                           value={row.labor}
                           onChange={(e) => updateExcelRow(row.id, 'labor', e.target.value)}
-                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: row.estado === 'Trabajo' ? '#fff' : 'var(--txt-muted)', fontSize: '14px', outline: 'none', borderBottom: '1px solid transparent' }}
+                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: row.estado === 'Trabajo' ? 'var(--txt)' : 'var(--txt-muted)', fontSize: '14px', outline: 'none', borderBottom: '1px solid transparent' }}
                           onFocus={(e) => e.target.style.borderBottomColor = 'var(--brand-red)'}
                           onBlur={(e) => e.target.style.borderBottomColor = 'transparent'}
                         />
@@ -1134,7 +1154,7 @@ export default function SupervisorDashboard({ supervisor }) {
                           disabled={row.estado !== 'Trabajo'}
                           value={row.lote}
                           onChange={(e) => updateExcelRow(row.id, 'lote', e.target.value)}
-                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: row.estado === 'Trabajo' ? '#fff' : 'var(--txt-muted)', fontSize: '14px', outline: 'none', borderBottom: '1px solid transparent' }}
+                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: row.estado === 'Trabajo' ? 'var(--txt)' : 'var(--txt-muted)', fontSize: '14px', outline: 'none', borderBottom: '1px solid transparent' }}
                           onFocus={(e) => e.target.style.borderBottomColor = 'var(--brand-red)'}
                           onBlur={(e) => e.target.style.borderBottomColor = 'transparent'}
                         />
@@ -1147,7 +1167,7 @@ export default function SupervisorDashboard({ supervisor }) {
                           disabled={row.estado !== 'Trabajo'}
                           value={row.hi}
                           onChange={(e) => updateExcelRow(row.id, 'hi', e.target.value)}
-                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: row.estado === 'Trabajo' ? '#fff' : 'var(--txt-muted)', fontSize: '13px', outline: 'none' }}
+                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: row.estado === 'Trabajo' ? 'var(--txt)' : 'var(--txt-muted)', fontSize: '13px', outline: 'none' }}
                         />
                       </td>
 
@@ -1158,7 +1178,7 @@ export default function SupervisorDashboard({ supervisor }) {
                           disabled={row.estado !== 'Trabajo'}
                           value={row.hf}
                           onChange={(e) => updateExcelRow(row.id, 'hf', e.target.value)}
-                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: row.estado === 'Trabajo' ? '#fff' : 'var(--txt-muted)', fontSize: '13px', outline: 'none' }}
+                          style={{ width: '100%', padding: '8px 6px', background: 'transparent', border: 'none', color: row.estado === 'Trabajo' ? 'var(--txt)' : 'var(--txt-muted)', fontSize: '13px', outline: 'none' }}
                         />
                       </td>
 
@@ -1233,7 +1253,7 @@ export default function SupervisorDashboard({ supervisor }) {
               {todayLogs.map(log => {
                 const borderLeftCol = log.estado === 'Trabajo' ? 'var(--grn)' : (log.estado === 'Descanso' ? 'var(--amber)' : 'var(--brand-red)');
                 return (
-                  <div key={log.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: 'rgba(0,0,0,0.15)', border: '1px solid var(--border)', borderLeft: `4px solid ${borderLeftCol}`, borderRadius: 'var(--radius-sm)' }}>
+                  <div key={log.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: 'rgba(0,0,0,0.03)', border: '1px solid var(--border)', borderLeft: `4px solid ${borderLeftCol}`, borderRadius: 'var(--radius-sm)' }}>
                     <div>
                       <div style={{ fontWeight: 600, fontSize: '15px' }}>{log.nombre}</div>
                       <div style={{ display: 'flex', gap: '10px', marginTop: '4px', fontSize: '12px', color: 'var(--txt-secondary)' }}>
@@ -1284,7 +1304,7 @@ export default function SupervisorDashboard({ supervisor }) {
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '10px' }}>
               {personalHistory.map(row => (
-                <div key={row.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: 'rgba(0,0,0,0.15)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }}>
+                <div key={row.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: 'rgba(0,0,0,0.03)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)' }}>
                   <div>
                     <div style={{ fontWeight: 600 }}>{row.nombre}</div>
                     <div style={{ fontSize: '12px', color: 'var(--txt-secondary)', marginTop: '2px' }}>DNI: {row.dni}</div>

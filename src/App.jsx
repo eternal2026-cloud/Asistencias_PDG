@@ -122,29 +122,33 @@ export default function App() {
 
   if (view === 'login') {
     return (
-      <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', padding: '20px', background: 'radial-gradient(circle at top, #3b0712, #0b0f19)' }}>
+      <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', padding: '20px', background: 'linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #dbeafe 100%)' }}>
         <div style={{ width: '100%', maxWidth: '420px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '30px', boxShadow: 'var(--shadow)' }}>
           <div style={{ textAlign: 'center', marginBottom: '25px' }}>
             <div style={{ display: 'inline-flex', padding: '12px', background: 'var(--brand-red-glow)', borderRadius: '50%', marginBottom: '10px', boxShadow: 'var(--shadow-glow)' }}>
-              <Users size={32} color="var(--brand-red)" />
+              {/* Premium checkmark shield logo */}
+              <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--brand-red)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}>
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(30, 64, 175, 0.08)" />
+                <path d="M9 11l2 2 4-4" stroke="var(--brand-red)" strokeWidth="2.5" />
+              </svg>
             </div>
-            <h1 style={{ fontSize: '24px', letterSpacing: '-0.5px', marginBottom: '4px' }}>El Pedregal S.A.</h1>
+            <h1 style={{ fontSize: '24px', letterSpacing: '-0.5px', marginBottom: '4px', color: 'var(--txt)' }}>El Pedregal S.A.</h1>
             <p style={{ color: 'var(--txt-secondary)', fontSize: '14px' }}>Sistema de Control de Asistencias</p>
           </div>
 
           {/* Mode Switch tabs */}
-          <div style={{ display: 'flex', background: 'rgba(255,255,255,0.03)', padding: '4px', borderRadius: 'var(--radius-md)', marginBottom: '20px', border: '1px solid var(--border)' }}>
+          <div style={{ display: 'flex', background: 'rgba(0,0,0,0.03)', padding: '4px', borderRadius: 'var(--radius-md)', marginBottom: '20px', border: '1px solid var(--border)' }}>
             <button 
               type="button"
               onClick={() => { setIsAdminMode(false); setErrorMsg(''); }}
-              style={{ flex: 1, padding: '10px', background: !isAdminMode ? 'var(--brand-red)' : 'transparent', border: 'none', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontWeight: 600, fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', transition: '0.2s' }}
+              style={{ flex: 1, padding: '10px', background: !isAdminMode ? 'var(--brand-red)' : 'transparent', border: 'none', color: !isAdminMode ? '#fff' : 'var(--txt-secondary)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontWeight: 600, fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', transition: '0.2s' }}
             >
               <Users size={16} /> Supervisor
             </button>
             <button 
               type="button"
               onClick={() => { setIsAdminMode(true); setErrorMsg(''); }}
-              style={{ flex: 1, padding: '10px', background: isAdminMode ? 'var(--brand-red)' : 'transparent', border: 'none', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontWeight: 600, fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', transition: '0.2s' }}
+              style={{ flex: 1, padding: '10px', background: isAdminMode ? 'var(--brand-red)' : 'transparent', border: 'none', color: isAdminMode ? '#fff' : 'var(--txt-secondary)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontWeight: 600, fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', transition: '0.2s' }}
             >
               <Shield size={16} /> Administrador
             </button>
@@ -160,7 +164,7 @@ export default function App() {
                     value={loginUsername}
                     onChange={(e) => setLoginUsername(e.target.value)}
                     placeholder="Ej: Edwin"
-                    style={{ width: '100%', padding: '12px 16px', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontSize: '15px', outline: 'none', transition: '0.2s' }}
+                    style={{ width: '100%', padding: '12px 16px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', fontSize: '15px', outline: 'none', transition: '0.2s' }}
                     onFocus={(e) => e.target.style.borderColor = 'var(--brand-red)'}
                     onBlur={(e) => e.target.style.borderColor = 'var(--border)'}
                   />
@@ -172,7 +176,7 @@ export default function App() {
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     placeholder="••••••••"
-                    style={{ width: '100%', padding: '12px 16px', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontSize: '15px', outline: 'none', transition: '0.2s' }}
+                    style={{ width: '100%', padding: '12px 16px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', fontSize: '15px', outline: 'none', transition: '0.2s' }}
                     onFocus={(e) => e.target.style.borderColor = 'var(--brand-red)'}
                     onBlur={(e) => e.target.style.borderColor = 'var(--border)'}
                   />
@@ -186,7 +190,7 @@ export default function App() {
                   value={adminPassword}
                   onChange={(e) => setAdminPassword(e.target.value)}
                   placeholder="••••••••"
-                  style={{ width: '100%', padding: '12px 16px', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontSize: '15px', outline: 'none', transition: '0.2s' }}
+                  style={{ width: '100%', padding: '12px 16px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', fontSize: '15px', outline: 'none', transition: '0.2s' }}
                   onFocus={(e) => e.target.style.borderColor = 'var(--brand-red)'}
                   onBlur={(e) => e.target.style.borderColor = 'var(--border)'}
                 />
@@ -194,7 +198,7 @@ export default function App() {
             )}
 
             {errorMsg && (
-              <div style={{ color: '#f87171', background: 'rgba(248, 113, 113, 0.08)', border: '1px solid rgba(248, 113, 113, 0.2)', padding: '10px 12px', borderRadius: 'var(--radius-sm)', fontSize: '13px' }}>
+              <div style={{ color: '#ef4444', background: 'rgba(239, 68, 68, 0.05)', border: '1px solid rgba(239, 68, 68, 0.15)', padding: '10px 12px', borderRadius: 'var(--radius-sm)', fontSize: '13px' }}>
                 {errorMsg}
               </div>
             )}
@@ -215,16 +219,19 @@ export default function App() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg-app)' }}>
-      {/* Header bar */}
-      <header style={{ background: 'var(--bg-card)', borderBottom: '1px solid var(--border)', padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      {/* Header bar - Blue headers */}
+      <header style={{ background: '#1e40af', borderBottom: '1px solid rgba(255,255,255,0.1)', padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#fff' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div style={{ padding: '6px', background: 'var(--brand-red-glow)', borderRadius: 'var(--radius-sm)' }}>
-            <CalendarCheck2 size={20} color="var(--brand-red)" />
+          <div style={{ padding: '6px', background: 'rgba(255,255,255,0.12)', borderRadius: 'var(--radius-sm)' }}>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: '#fff', display: 'block' }}>
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(255,255,255,0.15)" />
+              <path d="M9 11l2 2 4-4" stroke="#93c5fd" />
+            </svg>
           </div>
           <div>
-            <h2 style={{ fontSize: '16px', fontWeight: 700, letterSpacing: '-0.3px' }}>Pedregal Asistencias</h2>
-            <p style={{ fontSize: '11px', color: 'var(--txt-secondary)' }}>
-              Supervisor: <span style={{ color: 'var(--brand-red)', fontWeight: 600 }}>{user}</span>
+            <h2 style={{ fontSize: '16px', fontWeight: 800, letterSpacing: '-0.3px', color: '#fff', margin: 0 }}>Pedregal Asistencias</h2>
+            <p style={{ fontSize: '11px', color: '#bfdbfe', margin: 0 }}>
+              Supervisor: <span style={{ color: '#ffffff', fontWeight: 700 }}>{user}</span>
             </p>
           </div>
         </div>
@@ -235,26 +242,26 @@ export default function App() {
             <>
               <button 
                 onClick={() => navigateTo('admin')}
-                style={{ padding: '8px 16px', background: view === 'admin' ? 'rgba(255,255,255,0.05)' : 'transparent', border: 'none', borderRadius: 'var(--radius-sm)', color: view === 'admin' ? '#fff' : 'var(--txt-secondary)', cursor: 'pointer', fontSize: '13.5px', fontWeight: 600 }}
+                style={{ padding: '8px 16px', background: view === 'admin' ? 'rgba(255,255,255,0.15)' : 'transparent', border: 'none', borderRadius: 'var(--radius-sm)', color: '#ffffff', cursor: 'pointer', fontSize: '13.5px', fontWeight: 600, transition: '0.15s' }}
               >
                 Panel Admin
               </button>
               <button 
                 onClick={() => navigateTo('validation')}
-                style={{ padding: '8px 16px', background: view === 'validation' ? 'rgba(255,255,255,0.05)' : 'transparent', border: 'none', borderRadius: 'var(--radius-sm)', color: view === 'validation' ? '#fff' : 'var(--txt-secondary)', cursor: 'pointer', fontSize: '13.5px', fontWeight: 600 }}
+                style={{ padding: '8px 16px', background: view === 'validation' ? 'rgba(255,255,255,0.15)' : 'transparent', border: 'none', borderRadius: 'var(--radius-sm)', color: '#ffffff', cursor: 'pointer', fontSize: '13.5px', fontWeight: 600, transition: '0.15s' }}
               >
                 Validador Reloj
               </button>
             </>
           ) : (
-            <span style={{ fontSize: '13px', color: 'var(--txt-secondary)', paddingRight: '10px' }}>
+            <span style={{ fontSize: '13px', color: '#bfdbfe', paddingRight: '10px' }}>
               Portal de Supervisor
             </span>
           )}
 
           <button 
             onClick={handleLogout}
-            style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', background: 'rgba(248, 113, 113, 0.08)', border: '1px solid rgba(248, 113, 113, 0.15)', borderRadius: 'var(--radius-sm)', color: '#f87171', cursor: 'pointer', fontSize: '13.0px', fontWeight: 600 }}
+            style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', background: 'rgba(239, 68, 68, 0.2)', border: '1px solid rgba(239, 68, 68, 0.25)', borderRadius: 'var(--radius-sm)', color: '#fca5a5', cursor: 'pointer', fontSize: '13.0px', fontWeight: 600, transition: '0.15s' }}
           >
             <LogOut size={14} /> Salir
           </button>

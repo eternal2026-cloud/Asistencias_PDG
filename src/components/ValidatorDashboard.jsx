@@ -341,7 +341,16 @@ export default function ValidatorDashboard() {
       {/* Header Title */}
       <div>
         <h2 style={{ fontSize: '20px', fontWeight: 800 }}>Validador de Marcaciones</h2>
-        <p style={{ fontSize: '13px', color: 'var(--txt-secondary)' }}>Cruzar asistencias con los registros biométricos del reloj marcador</p>
+        <p style={{ fontSize: '13px', color: 'var(--txt-secondary)', marginBottom: '15px' }}>Cruzar asistencias con los registros biométricos del reloj marcador</p>
+        
+        {/* Active Development Warning Banner */}
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', background: 'var(--amber-glow)', border: '1px solid rgba(217, 119, 6, 0.3)', padding: '14px 18px', borderRadius: 'var(--radius-md)', color: 'var(--amber)', fontSize: '14px', lineHeight: '1.5', marginBottom: '10px' }}>
+          <AlertCircle size={20} style={{ flexShrink: 0, marginTop: '2px' }} />
+          <div>
+            <strong style={{ display: 'block', marginBottom: '4px', fontSize: '14px' }}>Módulo en Fase de Desarrollo / Pruebas Activas</strong>
+            Actualmente estamos ajustando las reglas de cruce y zonas horarias para las marcaciones biométricas. Es posible que existan discrepancias o falsos negativos (por ejemplo, operarios que sí asistieron pero se muestran sin marcación) debido a variaciones en la descarga del archivo del reloj marcador local.
+          </div>
+        </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
@@ -355,7 +364,7 @@ export default function ValidatorDashboard() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <label 
               htmlFor="txt-reloj-upload"
-              style={{ display: 'block', border: '2px dashed var(--border)', borderRadius: 'var(--radius-md)', padding: '20px', textAlign: 'center', cursor: 'pointer', background: 'rgba(255,255,255,0.01)', transition: '0.2s' }}
+              style={{ display: 'block', border: '2px dashed var(--border)', borderRadius: 'var(--radius-md)', padding: '20px', textAlign: 'center', cursor: 'pointer', background: 'rgba(0,0,0,0.01)', transition: '0.2s' }}
               onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--brand-red)'}
               onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
             >
@@ -412,7 +421,7 @@ export default function ValidatorDashboard() {
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
                 disabled={loadingDates}
-                style={{ width: '100%', padding: '11px 14px', background: 'var(--bg-app)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', outline: 'none', cursor: 'pointer' }}
+                style={{ width: '100%', padding: '11px 14px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', outline: 'none', cursor: 'pointer' }}
               >
                 {loadingDates ? (
                   <option>Cargando fechas...</option>
@@ -438,7 +447,7 @@ export default function ValidatorDashboard() {
             <button 
               onClick={fetchFechas}
               disabled={loadingDates}
-              style={{ padding: '11px 14px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '13.5px' }}
+              style={{ padding: '11px 14px', background: 'rgba(0,0,0,0.02)', border: '1px solid var(--border)', color: '#fff', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '13.5px' }}
             >
               <RefreshCw size={14} />
             </button>
@@ -475,7 +484,7 @@ export default function ValidatorDashboard() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '15px' }}>
               <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '14px', textAlign: 'center' }}>
                 <div style={{ fontSize: '11px', color: 'var(--txt-secondary)', textTransform: 'uppercase' }}>Asistencia</div>
-                <div style={{ fontSize: '24px', fontWeight: 800, color: '#fff', marginTop: '3px' }}>{resumen.totalAsis}</div>
+                <div style={{ fontSize: '24px', fontWeight: 800, color: 'var(--txt)', marginTop: '3px' }}>{resumen.totalAsis}</div>
               </div>
               <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '14px', textAlign: 'center' }}>
                 <div style={{ fontSize: '11px', color: 'var(--txt-secondary)', textTransform: 'uppercase' }}>Carga Reloj</div>
@@ -502,7 +511,7 @@ export default function ValidatorDashboard() {
               <div style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
                   <thead>
-                    <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid var(--border)' }}>
+                    <tr style={{ background: 'rgba(0,0,0,0.02)', borderBottom: '1px solid var(--border)' }}>
                       <th style={{ padding: '12px 10px', color: 'var(--txt-secondary)', fontWeight: 600, width: '30px' }}></th>
                       <th style={{ padding: '12px 10px', color: 'var(--txt-secondary)', fontWeight: 600 }}>DNI</th>
                       <th style={{ padding: '12px 10px', color: 'var(--txt-secondary)', fontWeight: 600 }}>Nombre Completo</th>
@@ -515,7 +524,7 @@ export default function ValidatorDashboard() {
                   </thead>
                   <tbody>
                     {detalle.map((row, idx) => {
-                      const badgeBg = row.estadoCruce === 'ok' ? 'var(--grn-glow)' : (row.estadoCruce === 'faltaReloj' ? 'var(--amber-glow)' : 'rgba(255,255,255,0.04)');
+                      const badgeBg = row.estadoCruce === 'ok' ? 'var(--grn-glow)' : (row.estadoCruce === 'faltaReloj' ? 'var(--amber-glow)' : 'rgba(0,0,0,0.04)');
                       const badgeTxt = row.estadoCruce === 'ok' ? 'var(--grn)' : (row.estadoCruce === 'faltaReloj' ? 'var(--amber)' : 'var(--txt-secondary)');
                       const badgeLabel = row.estadoCruce === 'ok' ? 'OK' : (row.estadoCruce === 'faltaReloj' ? 'Falta' : 'Solo Reloj');
                       const isExpanded = !!expandedRows[idx];
@@ -527,10 +536,10 @@ export default function ValidatorDashboard() {
                             style={{ 
                               borderBottom: '1px solid var(--border)', 
                               cursor: row.labores.length > 0 ? 'pointer' : 'default', 
-                              background: isExpanded ? 'rgba(255,255,255,0.02)' : 'transparent',
+                              background: isExpanded ? 'rgba(0,0,0,0.02)' : 'transparent',
                               transition: 'background-color 0.15s' 
                             }}
-                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.03)'}
+                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(0,0,0,0.03)'}
                             onMouseLeave={(e) => e.currentTarget.style.background = isExpanded ? 'rgba(255,255,255,0.02)' : 'transparent'}
                           >
                             <td style={{ padding: '12px 10px', textAlign: 'center' }}>

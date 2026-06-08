@@ -117,7 +117,7 @@ export default function AdminDashboard() {
         <button 
           onClick={fetchLogs} 
           disabled={loading}
-          style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', cursor: 'pointer', fontSize: '13px' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', background: 'rgba(0,0,0,0.02)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', cursor: 'pointer', fontSize: '13px' }}
         >
           {loading ? <Loader2 className="spin" size={14} /> : <RefreshCw size={14} />}
           Actualizar
@@ -128,7 +128,7 @@ export default function AdminDashboard() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '15px' }}>
         <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '16px', boxShadow: 'var(--shadow)' }}>
           <div style={{ fontSize: '12px', color: 'var(--txt-secondary)', fontWeight: 600, textTransform: 'uppercase' }}>Registros Totales</div>
-          <div style={{ fontSize: '28px', fontWeight: 800, marginTop: '5px', color: '#fff' }}>{stats.total}</div>
+          <div style={{ fontSize: '28px', fontWeight: 800, marginTop: '5px', color: 'var(--txt)' }}>{stats.total}</div>
         </div>
         <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '16px', borderLeft: '4px solid var(--grn)', boxShadow: 'var(--shadow)' }}>
           <div style={{ fontSize: '12px', color: 'var(--txt-secondary)', fontWeight: 600, textTransform: 'uppercase' }}>Trabajando</div>
@@ -157,7 +157,7 @@ export default function AdminDashboard() {
               type="date" 
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              style={{ width: '100%', padding: '10px 14px', background: 'var(--bg-app)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', outline: 'none' }}
+              style={{ width: '100%', padding: '10px 14px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', outline: 'none' }}
             />
           </div>
           <div>
@@ -166,7 +166,7 @@ export default function AdminDashboard() {
               type="date" 
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              style={{ width: '100%', padding: '10px 14px', background: 'var(--bg-app)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', outline: 'none' }}
+              style={{ width: '100%', padding: '10px 14px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', outline: 'none' }}
             />
           </div>
           <div>
@@ -174,7 +174,7 @@ export default function AdminDashboard() {
             <select 
               value={selectedSupervisor}
               onChange={(e) => setSelectedSupervisor(e.target.value)}
-              style={{ width: '100%', padding: '10px 14px', background: 'var(--bg-app)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', outline: 'none', cursor: 'pointer' }}
+              style={{ width: '100%', padding: '10px 14px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: 'var(--txt)', outline: 'none', cursor: 'pointer' }}
             >
               <option value="Todos">Todos los Supervisores</option>
               {supervisorsList.map(sup => (
@@ -217,7 +217,7 @@ export default function AdminDashboard() {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
               <thead>
-                <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid var(--border)' }}>
+                <tr style={{ background: 'rgba(0,0,0,0.02)', borderBottom: '1px solid var(--border)' }}>
                   <th style={{ padding: '12px 10px', color: 'var(--txt-secondary)', fontWeight: 600 }}>Fecha</th>
                   <th style={{ padding: '12px 10px', color: 'var(--txt-secondary)', fontWeight: 600 }}>DNI</th>
                   <th style={{ padding: '12px 10px', color: 'var(--txt-secondary)', fontWeight: 600 }}>Operario</th>

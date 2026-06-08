@@ -5,7 +5,7 @@ import confetti from 'canvas-confetti';
 import { 
   Keyboard, Camera, Upload, Trash2, Plus, Save, Clock, 
   UserPlus, Search, Briefcase, FileSpreadsheet, ListTodo, Users, CheckCircle2, AlertTriangle, ChevronRight,
-  Loader2
+  Loader2, Copy
 } from 'lucide-react';
 
 // Deterministic Date formatting without unicode/locale bugs (fixes mobile issues)
@@ -59,6 +59,66 @@ export default function SupervisorDashboard({ supervisor }) {
   // Excel (Massive) states
   const [excelRows, setExcelRows] = useState([]);
   const [savingExcel, setSavingExcel] = useState(false);
+  const [loadingExcelPreload, setLoadingExcelPreload] = useState(false);
+
+  const preloadExcelRows = async () => {
+    setLoadingExcelPreload(true);
+    try {
+      const { data, error } = await supabase
+        .from('trabajadores_supervisor')
+        .select('dni, nombre')
+        .eq('supervisor_key', supervisor);
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        const preloaded = data.map((item, i) => ({
+          id: `r-${Date.now()}-${i}`,
+          dni: item.dni,
+          nombre: item.nombre,
+          estado: 'Trabajo',
+          labor: '',
+          lote: '',
+          hi: '',
+          hf: '',
+          suggestions: [],
+          saved: false
+        }));
+        setExcelRows(preloaded);
+      } else {
+        const initial = Array.from({ length: 10 }, (_, i) => ({
+          id: `r-${Date.now()}-${i}`,
+          dni: '',
+          nombre: '',
+          estado: 'Trabajo',
+          labor: '',
+          lote: '',
+          hi: '',
+          hf: '',
+          suggestions: [],
+          saved: false
+        }));
+        setExcelRows(initial);
+      }
+    } catch (err) {
+      console.warn("Failed to preload workers, fallback to empty grid", err);
+      const initial = Array.from({ length: 10 }, (_, i) => ({
+        id: `r-${Date.now()}-${i}`,
+        dni: '',
+        nombre: '',
+        estado: 'Trabajo',
+        labor: '',
+        lote: '',
+        hi: '',
+        hf: '',
+        suggestions: [],
+        saved: false
+      }));
+      setExcelRows(initial);
+    } finally {
+      setLoadingExcelPreload(false);
+    }
+  };
   const [excelToast, setExcelToast] = useState({ text: '', type: '' });
   
   // Autocomplete search helper cache
@@ -105,19 +165,7 @@ export default function SupervisorDashboard({ supervisor }) {
   // Initialize Excel view rows
   useEffect(() => {
     if (activeTab === 'excel' && excelRows.length === 0) {
-      const initial = Array.from({ length: 10 }, (_, i) => ({
-        id: `r-${Date.now()}-${i}`,
-        dni: '',
-        nombre: '',
-        estado: 'Trabajo',
-        labor: '',
-        lote: '',
-        hi: '',
-        hf: '',
-        suggestions: [],
-        saved: false
-      }));
-      setExcelRows(initial);
+      preloadExcelRows();
     } else if (activeTab === 'hoy') {
       fetchTodayLogs();
     } else if (activeTab === 'personal') {
@@ -517,6 +565,22 @@ export default function SupervisorDashboard({ supervisor }) {
     }
   };
 
+  const duplicateExcelRow = (id) => {
+    const rowToDuplicate = excelRows.find(r => r.id === id);
+    if (!rowToDuplicate) return;
+
+    const index = excelRows.findIndex(r => r.id === id);
+    const duplicate = {
+      ...rowToDuplicate,
+      id: `r-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+      saved: false
+    };
+
+    const newRows = [...excelRows];
+    newRows.splice(index + 1, 0, duplicate);
+    setExcelRows(newRows);
+  };
+
   const saveExcelAll = async () => {
     setSavingExcel(true);
     setExcelToast({ text: '', type: '' });
@@ -593,7 +657,7 @@ export default function SupervisorDashboard({ supervisor }) {
 
   const clearExcelTable = () => {
     if (window.confirm('¿Está seguro de que desea limpiar toda la tabla?')) {
-      const initial = Array.from({ length: 10 }, (_, i) => ({
+      const initial = Array.from({ length: 5 }, (_, i) => ({
         id: `r-${Date.now()}-${i}`,
         dni: '',
         nombre: '',
@@ -1053,6 +1117,15 @@ export default function SupervisorDashboard({ supervisor }) {
             <div style={{ display: 'flex', gap: '10px' }}>
               <button 
                 type="button" 
+                onClick={preloadExcelRows}
+                disabled={loadingExcelPreload}
+                style={{ padding: '8px 12px', background: 'rgba(30, 64, 175, 0.08)', border: '1px solid var(--border)', color: 'var(--brand-red)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12.5px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '5px' }}
+              >
+                {loadingExcelPreload ? <Loader2 className="spin" size={14} /> : <Users size={14} />}
+                Cargar Mi Personal
+              </button>
+              <button 
+                type="button" 
                 onClick={clearExcelTable}
                 style={{ padding: '8px 12px', background: 'rgba(0,0,0,0.02)', border: '1px solid var(--border)', color: 'var(--txt-secondary)', borderRadius: 'var(--radius-sm)', cursor: 'pointer', fontSize: '12.5px', fontWeight: 600 }}
               >
@@ -1081,7 +1154,7 @@ export default function SupervisorDashboard({ supervisor }) {
                   <th style={{ padding: '12px 10px', fontSize: '12px', fontWeight: 700, color: 'var(--txt-secondary)', width: '100px' }}>Lote</th>
                   <th style={{ padding: '12px 10px', fontSize: '12px', fontWeight: 700, color: 'var(--txt-secondary)', width: '90px' }}>Inicio</th>
                   <th style={{ padding: '12px 10px', fontSize: '12px', fontWeight: 700, color: 'var(--txt-secondary)', width: '90px' }}>Fin</th>
-                  <th style={{ padding: '12px 10px', fontSize: '12px', fontWeight: 700, color: 'var(--txt-secondary)', width: '45px', textAlign: 'center' }}></th>
+                  <th style={{ padding: '12px 10px', fontSize: '12px', fontWeight: 700, color: 'var(--txt-secondary)', width: '75px', textAlign: 'center' }}></th>
                 </tr>
               </thead>
               <tbody>
@@ -1200,11 +1273,20 @@ export default function SupervisorDashboard({ supervisor }) {
                         />
                       </td>
 
-                      {/* Delete cell */}
-                      <td style={{ padding: '6px 8px', textAlign: 'center' }}>
+                      {/* Actions cell (Duplicate / Delete) */}
+                      <td style={{ padding: '6px 8px', textAlign: 'center', whiteSpace: 'nowrap' }}>
+                        <button 
+                          type="button" 
+                          onClick={() => duplicateExcelRow(row.id)}
+                          title="Duplicar Fila (Desglose Horario)"
+                          style={{ background: 'none', border: 'none', color: 'var(--brand-red)', cursor: 'pointer', marginRight: '8px' }}
+                        >
+                          <Copy size={14} />
+                        </button>
                         <button 
                           type="button" 
                           onClick={() => removeExcelRow(row.id)}
+                          title="Eliminar Fila"
                           style={{ background: 'none', border: 'none', color: 'var(--txt-muted)', cursor: 'pointer' }}
                         >
                           <Trash2 size={14} />

@@ -122,3 +122,8 @@ dist/
 
 # Vercel
 .vercel
+
+# Excel sheets and temp files
+*.xlsx
+~$*.xlsx
+

@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pedregal">
+<meta name="theme-color" content="#c8102e">
+<title>Asistencia — El Pedregal</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<script>
+(function(){
+  var ic='data:image/png;base64,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';
+  var m={name:'El Pedregal',short_name:'Pedregal',start_url:'<?= URL_BASE ?>',
+    display:'standalone',background_color:'#c8102e',theme_color:'#c8102e',
+    orientation:'portrait',
+    icons:[{src:ic,sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
+  var l=document.createElement('link');l.rel='manifest';
+  l.href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/manifest+json'}));
+  document.head.appendChild(l);
+})();
+</script>
+<style>
+:root{
+  --red:#c8102e; --red-d:#9e0b22; --red-bg:#fdf0f2; --red-bd:#f2c0c8;
+  --grn:#15803d; --grn-bg:#f0fdf4; --grn-bd:#86efac;
+  --amb:#b45309; --amb-bg:#fffbeb; --amb-bd:#fcd34d;
+  --gray:#475569; --gray-bg:#f8fafc; --gray-bd:#cbd5e1;
+  --bg:#f1f5f9; --surface:#fff; --border:#e2e8f0;
+  --txt:#0f172a; --txt2:#64748b; --txt3:#94a3b8;
+  --blue:#2563eb; --blue-bg:#eff6ff;
+  --r:14px; --r-sm:10px; --r-xs:7px;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.05);
+  --sh-lg:0 4px 8px rgba(0,0,0,.05),0 12px 36px rgba(0,0,0,.09);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,sans-serif;
+  background:var(--bg);color:var(--txt);min-height:100vh;max-width:560px;margin:0 auto;
+  touch-action:manipulation;-webkit-font-smoothing:antialiased}
+
+/* ── HEADER ── */
+#hdr{display:none;background:var(--red);color:#fff;padding:0 18px;
+  padding-top:env(safe-area-inset-top);
+  height:calc(56px + env(safe-area-inset-top));
+  align-items:flex-end;padding-bottom:10px;justify-content:space-between;
+  position:sticky;top:0;z-index:200;
+  box-shadow:0 1px 0 rgba(0,0,0,.12),0 4px 16px rgba(200,16,46,.22)}
+.hdr-brand{display:flex;align-items:center;gap:10px}
+.hdr-ic-wrap{width:34px;height:34px;border-radius:9px;background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center}
+.hdr-title{font-size:15px;font-weight:700}
+.hdr-sub{font-size:11px;opacity:.75;margin-top:1px}
+.btn-hdr{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);
+  border-radius:20px;color:#fff;font-size:12px;font-weight:600;padding:6px 13px;
+  cursor:pointer;display:flex;align-items:center;gap:5px;font-family:inherit}
+
+/* ── SCREENS ── */
+#scr-login{display:flex}  #scr-main{display:none}
+
+/* ── LOGIN ── */
+#scr-login{min-height:100vh;flex-direction:column;align-items:center;justify-content:center;
+  padding:28px 20px;background:#fff}
+.lg-hero{text-align:center;margin-bottom:32px}
+.lg-logo{width:80px;height:80px;border-radius:22px;background:var(--red);margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 24px rgba(200,16,46,.32)}
+.lg-h{font-size:24px;font-weight:800;letter-spacing:-.3px}
+.lg-p{font-size:14px;color:var(--txt2);margin-top:4px}
+.lg-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);
+  padding:24px 20px;width:100%;max-width:400px;box-shadow:var(--sh)}
+.lbl-sec{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;
+  color:var(--txt3);margin-bottom:14px}
+
+/* ── FORM ELEMENTS ── */
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--txt2);margin-bottom:6px}
+select,input[type=text],input[type=password],input[type=time]{
+  width:100%;font-size:16px;padding:12px 13px;border:1.5px solid var(--border);
+  border-radius:var(--r-sm);background:var(--bg);color:var(--txt);outline:none;
+  font-family:inherit;transition:border-color .15s,box-shadow .15s,background .15s;
+  appearance:none;-webkit-appearance:none}
+select:focus,input:focus{border-color:var(--red);background:#fff;box-shadow:0 0 0 3px rgba(200,16,46,.1)}
+input[readonly]{background:var(--bg);color:var(--txt2);cursor:default}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ── BUTTONS ── */
+.btn{display:block;width:100%;padding:14px;border-radius:var(--r-sm);border:none;
+  font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;
+  transition:transform .12s,opacity .15s;-webkit-appearance:none}
+.btn:active{transform:scale(.97);opacity:.9}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn-red{background:var(--red);color:#fff;box-shadow:0 2px 8px rgba(200,16,46,.25)}
+.btn-grn{background:var(--grn);color:#fff;box-shadow:0 2px 8px rgba(21,128,61,.2)}
+.btn-amb{background:var(--amb);color:#fff}
+.btn-out{background:transparent;border:1.5px solid var(--red);color:var(--red)}
+.btn-ghost{background:var(--bg);color:var(--txt2);border:1.5px solid var(--border)}
+.btn-sm{padding:9px 14px;font-size:13px;display:inline-block;width:auto}
+.btn-xs{padding:7px 11px;font-size:12px;display:inline-block;width:auto}
+
+/* ── CONTENT + TABS ── */
+#content{padding:12px 14px 90px}
+.tab{display:none}.tab.on{display:block}
+
+/* ── BOTTOM NAV ── */
+#nav{display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:560px;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-top:1px solid var(--border);z-index:200;
+  padding-bottom:env(safe-area-inset-bottom)}
+.nav-items{display:flex}
+.nav-btn{flex:1;background:none;border:none;padding:10px 4px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  cursor:pointer;color:var(--txt3);font-size:10px;font-weight:700;
+  font-family:inherit;letter-spacing:.3px;text-transform:uppercase;transition:color .15s}
+.nav-btn.on{color:var(--red)}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  box-shadow:var(--sh);padding:16px;margin-bottom:10px}
+.card-hd{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.card-hd-ic{width:34px;height:34px;border-radius:9px;background:var(--red-bg);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center}
+.card-title{font-size:14px;font-weight:700}
+.card-sub{font-size:12px;color:var(--txt2);margin-top:1px}
+.divider{border:none;border-top:1px solid var(--border);margin:12px 0}
+
+/* ── ESTADO BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:20px;
+  padding:4px 11px;font-size:12px;font-weight:700}
+.badge-work{background:var(--grn-bg);color:var(--grn);border:1px solid var(--grn-bd)}
+.badge-rest{background:var(--amb-bg);color:var(--amb);border:1px solid var(--amb-bd)}
+.badge-abs {background:#fef2f2;color:#dc2626;border:1px solid #fca5a5}
+
+/* ── BOTONES ESTADO ── */
+.estado-btns{display:flex;gap:8px;margin-bottom:14px}
+.estado-btn{flex:1;padding:10px 8px;border-radius:var(--r-sm);border:1.5px solid var(--border);
+  background:var(--bg);color:var(--txt2);font-size:13px;font-weight:700;cursor:pointer;
+  text-align:center;font-family:inherit;transition:all .15s;display:flex;
+  align-items:center;justify-content:center;gap:5px}
+.estado-btn.sel-work{background:var(--grn-bg);color:var(--grn);border-color:var(--grn-bd)}
+.estado-btn.sel-rest{background:var(--amb-bg);color:var(--amb);border-color:var(--amb-bd)}
+.estado-btn.sel-abs {background:#fef2f2;color:#dc2626;border-color:#fca5a5}
+
+/* ── DNI KEYPAD ── */
+.dni-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  box-shadow:var(--sh-lg);padding:18px;margin-bottom:10px}
+.dni-display{font-size:28px;font-weight:800;letter-spacing:5px;text-align:center;
+  padding:14px;background:var(--bg);border-radius:var(--r-sm);border:1.5px solid var(--border);
+  min-height:58px;display:flex;align-items:center;justify-content:center;
+  transition:border-color .15s,background .15s}
+.dni-display.has{border-color:var(--red);background:var(--red-bg);color:var(--red)}
+.dni-dots{text-align:center;margin:8px 0 2px}
+.dni-dots span{display:inline-block;width:9px;height:9px;border-radius:50%;
+  background:var(--border);margin:0 3px;transition:background .1s}
+.dni-dots span.f{background:var(--red)}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}
+.key{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-sm);
+  padding:15px 8px;font-size:20px;font-weight:700;color:var(--txt);cursor:pointer;
+  text-align:center;font-family:inherit;transition:background .1s,transform .08s;
+  user-select:none;-webkit-user-select:none}
+.key:active{background:var(--red-bg);border-color:var(--red);transform:scale(.94)}
+.key-del{color:var(--txt2)}
+.key-ok{background:var(--red);color:#fff;border-color:var(--red)}
+.key-ok:active{background:var(--red-d)}
+.key-ok:disabled,.key-ok[disabled]{background:var(--border);border-color:var(--border);cursor:not-allowed;transform:none}
+
+/* ── DNI ROW (tras escanear) ── */
+.dni-row{display:flex;align-items:center;gap:12px;background:var(--red-bg);
+  border:1.5px solid var(--red-bd);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:14px}
+.dni-ic{width:38px;height:38px;border-radius:9px;background:var(--red);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center}
+.dni-val{font-size:20px;font-weight:900;color:var(--red);letter-spacing:2px}
+.dni-lbl{font-size:11px;color:var(--txt2);margin-top:1px;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+
+/* ── HINT ── */
+.hint{font-size:12px;color:var(--txt2);display:flex;align-items:center;gap:4px;
+  margin-top:-8px;margin-bottom:12px}
+.hint.ok{color:var(--grn)}.hint.er{color:var(--red)}
+
+/* ── AUTOCOMPLETE DROPDOWN ── */
+.ac-wrap{position:relative}
+.ac-drop{position:absolute;top:calc(100% + 2px);left:0;right:0;z-index:300;
+  background:#fff;border:1.5px solid var(--red-bd);border-radius:var(--r-sm);
+  box-shadow:var(--sh-lg);overflow:hidden;display:none}
+.ac-drop.open{display:block}
+.ac-item{padding:11px 14px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid var(--border);transition:background .1s}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover,.ac-item:active{background:var(--red-bg)}
+.ac-name{font-weight:700;flex:1}
+.ac-dni{font-size:12px;color:var(--txt3);font-family:monospace}
+
+/* ── TOAST ── */
+.toast{border-radius:var(--r-sm);padding:12px 14px;font-size:14px;font-weight:600;
+  display:none;align-items:center;gap:9px;margin-bottom:12px;border:1.5px solid transparent}
+.toast.on{display:flex}
+.toast.ok{background:var(--grn-bg);color:var(--grn);border-color:var(--grn-bd)}
+.toast.er{background:var(--red-bg);color:var(--red);border-color:var(--red-bd)}
+.toast.info{background:var(--blue-bg);color:var(--blue);border-color:#bfdbfe}
+
+/* ── REGISTRO ITEM ── */
+.reg-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-sm);
+  padding:12px 14px;margin-bottom:8px}
+.reg-item.item-rest{border-left:3px solid var(--amb);background:var(--amb-bg)}
+.reg-item.item-abs {border-left:3px solid #dc2626;background:#fef2f2}
+.reg-name{font-size:15px;font-weight:700}
+.reg-meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.chip{font-size:11px;font-weight:700;border-radius:20px;padding:3px 8px;
+  display:inline-flex;align-items:center;gap:3px}
+.ch-gray{background:var(--bg);color:var(--txt2)}
+.ch-red{background:var(--red-bg);color:var(--red)}
+.ch-blue{background:var(--blue-bg);color:var(--blue)}
+.ch-grn{background:var(--grn-bg);color:var(--grn)}
+.ch-amb{background:var(--amb-bg);color:var(--amb)}
+.cnt-pill{background:var(--red);color:#fff;border-radius:12px;
+  padding:2px 8px;font-size:11px;font-weight:800;margin-left:auto}
+
+/* ── LOADER ── */
+.spin{display:inline-block;width:17px;height:17px;
+  border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;
+  border-radius:50%;animation:rot .7s linear infinite;vertical-align:middle;margin-right:7px}
+.spin-r{border-color:rgba(200,16,46,.2);border-top-color:var(--red)}
+@keyframes rot{to{transform:rotate(360deg)}}
+.empty{text-align:center;color:var(--txt3);padding:32px 20px;font-size:14px}
+
+/* ═══════════════════════════════════════════════════════════
+   VISTA EXCEL — tabla editable estilo spreadsheet
+═══════════════════════════════════════════════════════════ */
+.xl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--r);
+  border:1px solid var(--border);box-shadow:var(--sh)}
+.xl-table{border-collapse:collapse;width:100%;min-width:700px;background:var(--surface)}
+
+/* Cabecera */
+.xl-table thead tr{background:#1e293b}
+.xl-table thead th{padding:10px 8px;font-size:11px;font-weight:700;color:#e2e8f0;
+  text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;
+  border-right:1px solid #334155;text-align:left}
+.xl-table thead th:first-child{width:36px;text-align:center}
+.xl-table thead th.col-num{width:36px;background:#0f172a;color:#64748b;text-align:center}
+
+/* Filas alternas */
+.xl-table tbody tr{border-bottom:1px solid var(--border)}
+.xl-table tbody tr:nth-child(even){background:#f8fafc}
+.xl-table tbody tr:hover{background:#eff6ff}
+.xl-table tbody tr.row-rest{background:var(--amb-bg) !important}
+.xl-table tbody tr.row-abs {background:#fef2f2 !important}
+.xl-table tbody tr.row-focused{outline:2px solid var(--red);outline-offset:-1px;z-index:1;position:relative}
+
+/* Número de fila */
+.xl-table td.rn{background:#f1f5f9;color:var(--txt3);font-size:11px;font-weight:700;
+  text-align:center;width:32px;border-right:1px solid var(--border);padding:0}
+
+/* Celdas editables */
+.xl-table td{padding:0;vertical-align:middle;border-right:1px solid #f1f5f9}
+.xl-cell{width:100%;height:38px;padding:0 8px;border:none;outline:none;
+  background:transparent;font-size:13px;font-family:inherit;color:var(--txt);
+  cursor:text}
+.xl-cell:focus{background:#eff6ff;box-shadow:inset 0 0 0 2px var(--red)}
+.xl-cell::placeholder{color:var(--txt3)}
+
+/* Select estado dentro de tabla */
+.xl-sel{width:100%;height:38px;padding:0 6px;border:none;outline:none;
+  background:transparent;font-size:12px;font-weight:700;font-family:inherit;
+  cursor:pointer;appearance:none;-webkit-appearance:none}
+.xl-sel:focus{background:#eff6ff;box-shadow:inset 0 0 0 2px var(--red)}
+.xl-sel.s-work{color:var(--grn)} .xl-sel.s-rest{color:var(--amb)} .xl-sel.s-abs{color:#dc2626}
+
+/* Time cell */
+.xl-time{width:100%;height:38px;padding:0 6px;border:none;outline:none;
+  background:transparent;font-size:13px;font-family:inherit;color:var(--txt);cursor:pointer}
+.xl-time:focus{background:#eff6ff;box-shadow:inset 0 0 0 2px var(--red)}
+
+/* Fila acción (+ agregar) */
+.xl-add-row td{background:#f8fafc;border-top:2px dashed var(--border);padding:6px 8px}
+.btn-xl-add{background:none;border:none;color:var(--red);font-weight:700;font-size:13px;
+  cursor:pointer;display:flex;align-items:center;gap:6px;padding:4px;font-family:inherit}
+
+/* Toolbar excel */
+.xl-toolbar{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.xl-info{font-size:12px;color:var(--txt2);display:flex;align-items:center;gap:6px}
+.xl-actions{display:flex;gap:8px}
+
+/* Autocomplete dentro de tabla */
+.ac-td{position:relative}
+.ac-td .ac-drop{min-width:220px}
+
+/* Columna DNI — ancho fijo */
+.col-dni{width:108px} .col-nombre{min-width:160px} .col-estado{width:110px}
+.col-labor{min-width:120px} .col-lote{min-width:100px}
+.col-hi{width:80px} .col-hf{width:80px}
+
+/* Badge guardado */
+.saved-dot{display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:var(--grn);margin-right:4px;vertical-align:middle}
+
+/* ── QR CUSTOM SCANNER VIEW ── */
+.qr-scanner-box {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  margin: 15px auto;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+.qr-scanner-box .corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 4px solid var(--red);
+  z-index: 10;
+}
+.qr-scanner-box .top-left { top: 0; left: 0; border-right: none; border-bottom: none; }
+.qr-scanner-box .top-right { top: 0; right: 0; border-left: none; border-bottom: none; }
+.qr-scanner-box .bottom-left { bottom: 0; left: 0; border-right: none; border-top: none; }
+.qr-scanner-box .bottom-right { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+.qr-laser {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--red);
+  box-shadow: 0 0 10px var(--red);
+  animation: laser-anim 2s linear infinite;
+  z-index: 5;
+}
+@keyframes laser-anim {
+  0% { top: 0%; }
+  50% { top: 100%; }
+  100% { top: 0%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header id="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-ic-wrap">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+        <circle cx="12" cy="9" r="5" fill="white"/>
+        <path d="M12 5Q15.5 7 15.5 9.5Q15.5 12 12 13Q8.5 12 8.5 9.5Q8.5 7 12 5Z" fill="#c8102e"/>
+        <path d="M5 19L10 24L22 15" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <div>
+      <div class="hdr-title">El Pedregal</div>
+      <div class="hdr-sub" id="hdr-sup">Asistencia</div>
+    </div>
+  </div>
+  <button class="btn-hdr" onclick="logout()">
+    <svg viewBox="0 0 20 20" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 3H4a1 1 0 00-1 1v12a1 1 0 001 1h3M13 15l4-5-4-5M17 10H7"/></svg>
+    Salir
+  </button>
+</header>
+
+<!-- ═══ LOGIN ═══ -->
+<div id="scr-login">
+  <div class="lg-hero">
+    <div class="lg-logo">
+      <svg viewBox="0 0 48 48" width="48" height="48" fill="none">
+        <circle cx="24" cy="18" r="10" fill="white"/>
+        <path d="M24 10Q30 14 30 19Q30 24 24 26Q18 24 18 19Q18 14 24 10Z" fill="#c8102e"/>
+        <path d="M10 34L20 44L42 28" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="lg-h">El Pedregal</div>
+    <div class="lg-p">Control de Asistencia de Operarios</div>
+  </div>
+  <div class="lg-card">
+    <div class="lbl-sec">Ingreso de supervisor</div>
+    <div class="field">
+      <label>Supervisor</label>
+      <select id="inp-sup"><option value="">Seleccione...</option>
+        <option>Edwin</option><option>Damian</option>
+        <option>Demetrio</option><option>Gerardo</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="inp-pw" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <div class="toast er" id="t-login"></div>
+    <button class="btn btn-red" id="btn-login" onclick="doLogin()">Ingresar al Sistema</button>
+    <p style="text-align:center;margin-top:14px;font-size:13px;color:var(--txt2)">
+      ¿Administrador? <a id="lnk-admin" href="#" style="color:var(--red);font-weight:700;text-decoration:none">Panel Admin →</a>
+    </p>
+  </div>
+</div>
+
+<!-- ═══ PANTALLA PRINCIPAL ═══ -->
+<div id="scr-main">
+<div id="content">
+
+<!-- ─────────────────────────────────────────────
+     TAB 1: REGISTRO INDIVIDUAL
+───────────────────────────────────────────── -->
+<div id="tab-ind" class="tab on">
+
+  <!-- Teclado / Escáner DNI -->
+  <div id="dni-panel" class="dni-panel">
+    <div class="card-hd" style="margin-bottom:12px">
+      <div class="card-hd-ic">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h2M15 12h2M7 16h10"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Ingresar Operario</div>
+        <div class="card-sub">Escriba el DNI o escanee el fotocheck (QR)</div>
+      </div>
+    </div>
+    
+    <!-- Mode Toggle Tabs -->
+    <div style="display:flex; gap:10px; margin-bottom:15px; border-bottom:1.5px solid var(--border); padding-bottom:10px;">
+      <button id="btn-toggle-kp" class="btn btn-xs btn-red" onclick="switchDniMode('kp')" style="flex:1; width:auto; padding:8px;">Teclado Manual</button>
+      <button id="btn-toggle-qr" class="btn btn-xs btn-ghost" onclick="switchDniMode('qr')" style="flex:1; width:auto; padding:8px;">Escanear QR / Cámara</button>
+    </div>
+    
+    <!-- Keypad Mode Container -->
+    <div id="dni-kp-container">
+      <div class="dni-display" id="dni-disp"></div>
+      <div class="dni-dots" id="dni-dots">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="keypad">
+        <button class="key" onclick="kp('1')">1</button>
+        <button class="key" onclick="kp('2')">2</button>
+        <button class="key" onclick="kp('3')">3</button>
+        <button class="key" onclick="kp('4')">4</button>
+        <button class="key" onclick="kp('5')">5</button>
+        <button class="key" onclick="kp('6')">6</button>
+        <button class="key" onclick="kp('7')">7</button>
+        <button class="key" onclick="kp('8')">8</button>
+        <button class="key" onclick="kp('9')">9</button>
+        <button class="key key-del" onclick="kd()">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 002-2V6a2 2 0 00-2-2z"/><line x1="18" y1="9" x2="13" y2="14"/><line x1="13" y1="9" x2="18" y2="14"/></svg>
+        </button>
+        <button class="key" onclick="kp('0')">0</button>
+        <button class="key key-ok" id="key-ok" onclick="kOK()" disabled>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- QR Scanner Mode Container -->
+    <div id="dni-qr-container" style="display:none;">
+      <!-- Scanner Viewport -->
+      <div id="qr-scanner-view" style="display:none; text-align:center; position:relative;">
+        <div class="qr-scanner-box">
+          <div id="qr-reader" style="width: 100%; height: 100%; background: #000; border-radius: var(--r-xs); overflow: hidden;"></div>
+          <!-- Corners -->
+          <div class="corner top-left"></div>
+          <div class="corner top-right"></div>
+          <div class="corner bottom-left"></div>
+          <div class="corner bottom-right"></div>
+          <!-- Laser sweeping line -->
+          <div class="qr-laser"></div>
+        </div>
+        <div style="display:flex; gap:8px; justify-content:center; margin-top:10px;">
+          <button class="btn btn-ghost btn-xs" onclick="changeCamera()">Cambiar Cámara</button>
+          <button class="btn btn-out btn-xs" onclick="stopQrScan()">Detener Cámara</button>
+        </div>
+      </div>
+
+      <!-- Options before camera starts / Upload -->
+      <div id="qr-options-view">
+        <button class="btn btn-red" onclick="startQrScan()" style="margin-bottom:15px; display:flex; align-items:center; justify-content:center; gap:8px;">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2 2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          Usar Cámara en Vivo
+        </button>
+        
+        <div id="qr-drag-drop" onclick="document.getElementById('qr-file-input').click()" style="border:2px dashed var(--border); border-radius:var(--r-sm); padding:24px 16px; text-align:center; cursor:pointer; background:var(--bg); transition:border-color 0.15s;">
+          <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--txt3)" stroke-width="1.8" stroke-linecap="round" style="margin-bottom:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          <div style="font-size:14px; font-weight:700; color:var(--txt2);">Subir imagen de Fotocheck</div>
+          <div style="font-size:12px; color:var(--txt3); margin-top:4px;">Seleccione o arrastre una foto con el código QR</div>
+          <input type="file" id="qr-file-input" accept="image/*" style="display:none;" onchange="handleQrFile(this)">
+        </div>
+      </div>
+      
+      <div id="qr-result-box" style="display:none; margin-top:15px; background:var(--grn-bg); border:1.5px solid var(--grn-bd); border-radius:var(--r-sm); padding:10px 12px; align-items:center; gap:10px;">
+        <span class="saved-dot"></span>
+        <span style="font-size:14px; font-weight:700; color:var(--grn);">DNI detectado: <span id="qr-scanned-val"></span></span>
+      </div>
+    </div>
+
+    <div class="toast er" id="t-dni" style="margin-top:10px;margin-bottom:0"></div>
+  </div>
+
+  <!-- Formulario individual -->
+  <div id="form-ind" style="display:none">
+    <div class="card">
+      <div class="card-hd">
+        <div class="card-hd-ic">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div><div class="card-title">Registro de Asistencia</div><div class="card-sub">Complete los datos</div></div>
+      </div>
+
+      <!-- DNI badge -->
+      <div class="dni-row">
+        <div class="dni-ic">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h2M15 12h2M7 16h10"/></svg>
+        </div>
+        <div><div class="dni-val" id="disp-dni">—</div><div class="dni-lbl">DNI del operario</div></div>
+        <button class="btn btn-ghost btn-xs" style="margin-left:auto" onclick="resetDNI()">
+          <svg viewBox="0 0 20 20" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15 5L5 15M5 5l10 10"/></svg>
+          Cambiar
+        </button>
+      </div>
+
+      <!-- ESTADO -->
+      <div class="field">
+        <label>Estado</label>
+        <div class="estado-btns">
+          <button class="estado-btn sel-work" id="ebt-work" onclick="setEstado('Trabajo')">
+            <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="3" width="12" height="11" rx="1.5"/><path d="M5 3V2a3 3 0 016 0v1"/></svg>
+            Trabajo
+          </button>
+          <button class="estado-btn" id="ebt-rest" onclick="setEstado('Descanso')">
+            <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M13 11A6 6 0 115 3a4 4 0 008 8z"/></svg>
+            Descanso
+          </button>
+          <button class="estado-btn" id="ebt-abs" onclick="setEstado('Falta')">
+            <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="8" r="6"/><line x1="10" y1="6" x2="6" y2="10"/><line x1="6" y1="6" x2="10" y2="10"/></svg>
+            Falta
+          </button>
+        </div>
+      </div>
+
+      <!-- NOMBRE con autocomplete -->
+      <div class="field ac-wrap" id="ac-ind-wrap">
+        <label>Nombre Completo</label>
+        <input type="text" id="inp-nombre" placeholder="Apellidos y nombre" autocomplete="off"
+          oninput="acSearch(this,'ac-ind')">
+        <div class="ac-drop" id="ac-ind"></div>
+        <div class="hint" id="hint-nombre"></div>
+      </div>
+
+      <!-- Campos condicionales (ocultos en Descanso/Falta) -->
+      <div id="campos-labor">
+        <div class="field">
+          <label>Código de Labor</label>
+          <input type="text" id="inp-labor" placeholder="Ej: AGR-001, COSECHA-B">
+        </div>
+        <div class="field">
+          <label>Lote</label>
+          <input type="text" id="inp-lote" placeholder="Ej: LOTE-A, SECTOR-3">
+        </div>
+        <div class="row2">
+          <div class="field"><label>Hora Inicio</label><input type="time" id="inp-hi"></div>
+          <div class="field"><label>Hora Fin</label><input type="time" id="inp-hf"></div>
+        </div>
+      </div>
+
+      <div class="toast ok" id="t-ok"></div>
+      <div class="toast er" id="t-er"></div>
+      <button class="btn btn-grn" id="btn-save" onclick="guardar()">
+        <span style="display:flex;align-items:center;justify-content:center;gap:8px">
+          <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 5 8 16 3 11"/></svg>
+          Guardar Asistencia
+        </span>
+      </button>
+    </div>
+
+    <!-- ── LABORES ADICIONALES (botón +) ── -->
+    <div id="extras-section" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--txt3)">Labores adicionales</span>
+        <button class="btn btn-out btn-xs" onclick="addExtra()">
+          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
+          Agregar labor / lote
+        </button>
+      </div>
+      <div id="extras-list"></div>
+    </div>
+
+  </div><!-- /form-ind -->
+</div><!-- /tab-ind -->
+
+<!-- ─────────────────────────────────────────────
+     TAB 2: VISTA EXCEL (registro masivo)
+───────────────────────────────────────────── -->
+<div id="tab-xl" class="tab">
+  <div class="card" style="padding:14px">
+    <div class="card-hd" style="margin-bottom:10px">
+      <div class="card-hd-ic" style="background:var(--blue-bg)">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="9" x2="9" y2="21"/><line x1="15" y1="9" x2="15" y2="21"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Vista Excel — Registro Masivo</div>
+        <div class="card-sub">Edite directamente como en una hoja de cálculo</div>
+      </div>
+    </div>
+
+    <!-- Leyenda estados -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+      <span class="badge badge-work"><svg viewBox="0 0 10 10" width="8" height="8" fill="var(--grn)"><circle cx="5" cy="5" r="5"/></svg>Trabajo</span>
+      <span class="badge badge-rest"><svg viewBox="0 0 10 10" width="8" height="8" fill="var(--amb)"><circle cx="5" cy="5" r="5"/></svg>Descanso</span>
+      <span class="badge badge-abs"><svg viewBox="0 0 10 10" width="8" height="8" fill="#dc2626"><circle cx="5" cy="5" r="5"/></svg>Falta</span>
+      <span style="font-size:12px;color:var(--txt3);margin-left:auto;display:flex;align-items:center;gap:4px">
+        <svg viewBox="0 0 14 14" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7 1v12M1 7h12"/></svg>
+        Tab para moverse entre celdas
+      </span>
+    </div>
+
+    <div class="xl-toolbar">
+      <div class="xl-info">
+        <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 1l2 4 4.5.7-3.2 3.1.8 4.5L8 11l-4.1 2.1.8-4.5L1.5 5.7 6 5z"/></svg>
+        <span id="xl-count">0 filas</span>
+      </div>
+      <div class="xl-actions">
+        <button class="btn btn-ghost btn-xs" onclick="xlAddRow()">
+          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
+          Fila
+        </button>
+        <button class="btn btn-ghost btn-xs" onclick="xlClear()">
+          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="3 6 3 14 13 14 13 6"/><line x1="1" y1="6" x2="15" y2="6"/><line x1="6" y1="6" x2="6" y2="3"/><line x1="10" y1="6" x2="10" y2="3"/><line x1="6" y1="3" x2="10" y2="3"/></svg>
+          Limpiar
+        </button>
+      </div>
+    </div>
+
+    <div class="xl-wrap">
+      <table class="xl-table" id="xl-table">
+        <thead>
+          <tr>
+            <th class="col-num">#</th>
+            <th class="col-dni">DNI</th>
+            <th class="col-nombre">Nombre</th>
+            <th class="col-estado">Estado</th>
+            <th class="col-labor">Labor</th>
+            <th class="col-lote">Lote</th>
+            <th class="col-hi">Inicio</th>
+            <th class="col-hf">Fin</th>
+            <th style="width:30px"></th>
+          </tr>
+        </thead>
+        <tbody id="xl-body"></tbody>
+      </table>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <button class="btn btn-ghost btn-sm" style="flex:1" onclick="xlAddRow()">
+        <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-right:4px"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
+        Agregar fila
+      </button>
+      <button class="btn btn-grn btn-sm" style="flex:2" id="btn-xl-save" onclick="xlGuardar()">
+        <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px"><polyline points="14 4 6 13 2 9"/></svg>
+        Guardar todo
+      </button>
+    </div>
+    <div class="toast ok" id="t-xl-ok" style="margin-top:10px;margin-bottom:0"></div>
+    <div class="toast er" id="t-xl-er" style="margin-top:10px;margin-bottom:0"></div>
+  </div>
+</div><!-- /tab-xl -->
+
+<!-- ─────────────────────────────────────────────
+     TAB 3: HOY
+───────────────────────────────────────────── -->
+<div id="tab-hoy" class="tab">
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-hd-ic">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div><div class="card-title">Registros de Hoy</div><div class="card-sub" id="sub-stats-hoy">—</div></div>
+      <span class="cnt-pill" id="cnt-hoy">0</span>
+      <button class="btn btn-ghost btn-xs" style="margin-left:6px" onclick="cargarHoy()">
+        <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 8A6 6 0 112 8h2"/><polyline points="4 4 2 8 6 8"/></svg>
+      </button>
+    </div>
+    <div id="lista-hoy"><p class="empty"><span class="spin spin-r"></span></p></div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────
+     TAB 4: PERSONAL
+───────────────────────────────────────────── -->
+<div id="tab-pers" class="tab">
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-hd-ic">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <div><div class="card-title">Mi Personal</div><div class="card-sub">Operarios bajo tu supervisión</div></div>
+    </div>
+    <div id="lista-pers"><p class="empty"><span class="spin spin-r"></span></p></div>
+  </div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /scr-main -->
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-items">
+    <button class="nav-btn on" id="nav-ind" onclick="showTab('ind')">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      Nuevo
+    </button>
+    <button class="nav-btn" id="nav-xl" onclick="showTab('xl')">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="9" x2="9" y2="21"/><line x1="15" y1="9" x2="15" y2="21"/></svg>
+      Excel
+    </button>
+    <button class="nav-btn" id="nav-hoy" onclick="showTab('hoy')">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Hoy
+    </button>
+    <button class="nav-btn" id="nav-pers" onclick="showTab('pers')">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Personal
+    </button>
+  </div>
+</nav>
+
+<script>
+/* ═══════════ ESTADO GLOBAL ═══════════ */
+var SUP = null;
+var dniBuf = '';
+var estadoAct = 'Trabajo';
+var extrasGuardados = []; // labores extra del operario actual
+var APP_URL = '<?= URL_BASE ?>';
+document.getElementById('lnk-admin').href = APP_URL + '?page=admin';
+
+/* ═══════════ LOGIN ═══════════ */
+function doLogin() {
+  var sup = document.getElementById('inp-sup').value;
+  var pw  = document.getElementById('inp-pw').value.trim();
+  var btn = document.getElementById('btn-login');
+  clrT();
+  if (!sup){ showT('t-login','Seleccione supervisor','er'); return; }
+  if (!pw) { showT('t-login','Ingrese contraseña','er'); return; }
+  btn.innerHTML='<span class="spin"></span> Verificando...'; btn.disabled=true;
+  google.script.run
+    .withSuccessHandler(function(r){
+      btn.innerHTML='Ingresar al Sistema'; btn.disabled=false;
+      if (r.ok) {
+        SUP=sup;
+        document.getElementById('scr-login').style.display='none';
+        document.getElementById('scr-main').style.display='block';
+        document.getElementById('hdr').style.display='flex';
+        document.getElementById('nav').style.display='block';
+        document.getElementById('hdr-sup').textContent=sup;
+        xlInit(); // inicializar tabla Excel con 10 filas
+        setHora();
+      } else showT('t-login',r.mensaje||'Contraseña incorrecta','er');
+    })
+    .withFailureHandler(function(e){
+      btn.innerHTML='Ingresar al Sistema'; btn.disabled=false;
+      showT('t-login','Error: '+e.message,'er');
+    })
+    .autenticarSupervisor(sup,pw);
+}
+function logout(){
+  if(!confirm('¿Cerrar sesión?'))return;
+  SUP=null; dniBuf=''; resetDNI();
+  document.getElementById('scr-main').style.display='none';
+  document.getElementById('hdr').style.display='none';
+  document.getElementById('nav').style.display='none';
+  document.getElementById('scr-login').style.display='flex';
+  document.getElementById('inp-pw').value='';
+  clrT();
+}
+
+/* ═══════════ TABS ═══════════ */
+function showTab(t){
+  ['ind','xl','hoy','pers'].forEach(function(x){
+    document.getElementById('tab-'+x).classList.toggle('on',x===t);
+    document.getElementById('nav-'+x).classList.toggle('on',x===t);
+  });
+  if(t==='hoy') cargarHoy();
+  if(t==='pers') cargarPers();
+  window.scrollTo(0,0);
+}
+
+/* ═══════════ TECLADO DNI ═══════════ */
+function kp(d){ if(dniBuf.length>=8)return; dniBuf+=d; updDNI(); }
+function kd(){ if(!dniBuf.length)return; dniBuf=dniBuf.slice(0,-1); updDNI(); }
+function kOK(){ if(dniBuf.length!==8){showT('t-dni','DNI debe tener 8 dígitos','er');return;} procesarDNI(dniBuf); }
+function updDNI(){
+  var disp=document.getElementById('dni-disp');
+  disp.textContent=dniBuf.split('').join(' ');
+  disp.classList.toggle('has',dniBuf.length>0);
+  document.querySelectorAll('#dni-dots span').forEach(function(s,i){s.classList.toggle('f',i<dniBuf.length);});
+  document.getElementById('key-ok').disabled=dniBuf.length!==8;
+  if(dniBuf.length) document.getElementById('t-dni').classList.remove('on');
+}
+
+/* ═══════════ PROCESAR DNI ═══════════ */
+function procesarDNI(dni){
+  document.getElementById('disp-dni').textContent=dni;
+  document.getElementById('dni-panel').style.display='none';
+  document.getElementById('form-ind').style.display='block';
+  document.getElementById('inp-nombre').value='';
+  document.getElementById('inp-nombre').readOnly=false;
+  document.getElementById('hint-nombre').textContent='';
+  document.getElementById('hint-nombre').className='hint';
+  extrasGuardados=[];
+  document.getElementById('extras-list').innerHTML='';
+  document.getElementById('extras-section').style.display='none';
+  clrT();
+  google.script.run
+    .withSuccessHandler(function(r){
+      if(r.encontrado){
+        document.getElementById('inp-nombre').value=r.nombre;
+        document.getElementById('inp-nombre').readOnly=true;
+        document.getElementById('hint-nombre').innerHTML=
+          '<svg viewBox="0 0 14 14" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="12 3 5 11 2 8"/></svg> Nombre registrado';
+        document.getElementById('hint-nombre').className='hint ok';
+      } else {
+        document.getElementById('inp-nombre').focus();
+        document.getElementById('hint-nombre').textContent='Nuevo operario — ingrese el nombre';
+        document.getElementById('hint-nombre').className='hint';
+      }
+    })
+    .withFailureHandler(function(){})
+    .buscarNombrePorDni(dni);
+  setHora();
+  setTimeout(function(){document.getElementById('form-ind').scrollIntoView({behavior:'smooth',block:'start'});},150);
+}
+
+function resetDNI(){
+  dniBuf=''; updDNI();
+  document.getElementById('form-ind').style.display='none';
+  document.getElementById('dni-panel').style.display='block';
+  document.getElementById('inp-nombre').value='';
+  document.getElementById('inp-hi').value='';
+  document.getElementById('inp-hf').value='';
+  document.getElementById('extras-section').style.display='none';
+  extrasGuardados=[];
+  clrT();
+}
+
+function setHora(){
+  if(document.getElementById('inp-hi').value)return;
+  google.script.run.withSuccessHandler(function(h){document.getElementById('inp-hi').value=h;}).getHoraActual();
+}
+
+/* ═══════════ ESTADO ═══════════ */
+function setEstado(e){
+  estadoAct=e;
+  ['work','rest','abs'].forEach(function(s){
+    document.getElementById('ebt-'+s).className='estado-btn';
+  });
+  var map={Trabajo:'work',Descanso:'rest',Falta:'abs'};
+  document.getElementById('ebt-'+map[e]).className='estado-btn sel-'+map[e];
+  // Mostrar/ocultar campos de labor según estado
+  var mostrar=(e==='Trabajo');
+  document.getElementById('campos-labor').style.display=mostrar?'block':'none';
+}
+
+/* ═══════════ AUTOCOMPLETE ═══════════ */
+var acTimer=null;
+function acSearch(inp,dropId){
+  var txt=inp.value; var drop=document.getElementById(dropId);
+  clearTimeout(acTimer);
+  if(txt.length<2){drop.classList.remove('open');return;}
+  acTimer=setTimeout(function(){
+    google.script.run
+      .withSuccessHandler(function(list){
+        if(!list.length){drop.classList.remove('open');return;}
+        drop.innerHTML=list.map(function(o){
+          return '<div class="ac-item" onmousedown="acPick(\''+dropId+'\',\''+xe(o.dni)+'\',\''+xe(o.nombre)+'\',event)">'
+            +'<div class="ac-name">'+xe(o.nombre)+'</div>'
+            +'<div class="ac-dni">'+xe(o.dni)+'</div></div>';
+        }).join('');
+        drop.classList.add('open');
+      })
+      .withFailureHandler(function(){drop.classList.remove('open');})
+      .buscarOperariosPorNombre(txt);
+  },250);
+}
+function acPick(dropId,dni,nombre,evt){
+  if(evt)evt.preventDefault();
+  var drop=document.getElementById(dropId);
+  drop.classList.remove('open');
+  // Para la vista individual
+  if(dropId==='ac-ind'){
+    document.getElementById('inp-nombre').value=nombre;
+    document.getElementById('inp-nombre').readOnly=false;
+    document.getElementById('disp-dni').textContent=dni;
+  }
+  // Para la vista Excel: el caller maneja esto via xlAcPick
+  if(dropId.startsWith('ac-xl-')){
+    var rowId=dropId.replace('ac-xl-','');
+    xlAcPick(rowId,dni,nombre);
+  }
+}
+
+/* ═══════════ GUARDAR INDIVIDUAL ═══════════ */
+function guardar(){
+  var dni   =document.getElementById('disp-dni').textContent;
+  var nombre=document.getElementById('inp-nombre').value.trim();
+  var labor =document.getElementById('inp-labor').value.trim();
+  var lote  =document.getElementById('inp-lote').value.trim();
+  var hi    =document.getElementById('inp-hi').value;
+  var hf    =document.getElementById('inp-hf').value;
+  clrT();
+  if(!nombre){showT('t-er','Ingrese el nombre del operario','er');return;}
+  if(estadoAct==='Trabajo'){
+    if(!labor){showT('t-er','Ingrese código de labor','er');return;}
+    if(!lote) {showT('t-er','Ingrese el lote','er');return;}
+    if(!hi)   {showT('t-er','Ingrese hora de inicio','er');return;}
+  }
+  var btn=document.getElementById('btn-save');
+  btn.innerHTML='<span style="display:flex;align-items:center;justify-content:center;gap:7px"><span class="spin"></span>Guardando...</span>';
+  btn.disabled=true;
+  google.script.run
+    .withSuccessHandler(function(r){
+      btn.innerHTML='<span style="display:flex;align-items:center;justify-content:center;gap:7px"><svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="17 5 8 16 3 11"/></svg>Guardar Asistencia</span>';
+      btn.disabled=false;
+      if(r.ok){
+        showT('t-ok','Asistencia registrada correctamente','ok');
+        // Mostrar sección de labores extra si fue Trabajo
+        if(estadoAct==='Trabajo'){
+          document.getElementById('extras-section').style.display='block';
+        }
+        // Limpiar campos de labor para próximo registro del mismo operario
+        document.getElementById('inp-labor').value='';
+        document.getElementById('inp-lote').value='';
+        document.getElementById('inp-hf').value='';
+      } else showT('t-er',r.mensaje||'Error al guardar','er');
+    })
+    .withFailureHandler(function(e){
+      btn.innerHTML='<span style="display:flex;align-items:center;justify-content:center;gap:7px"><svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="17 5 8 16 3 11"/></svg>Guardar Asistencia</span>';
+      btn.disabled=false; showT('t-er','Error: '+e.message,'er');
+    })
+    .registrarAsistencia({dni:dni,nombre:nombre,supervisor:SUP,estado:estadoAct,
+                          codigoLabor:labor,lote:lote,horaInicio:hi,horaFin:hf});
+}
+
+/* ═══════════ LABOR EXTRA (+) ═══════════ */
+function addExtra(){
+  var dni   =document.getElementById('disp-dni').textContent;
+  var nombre=document.getElementById('inp-nombre').value.trim();
+  if(!dni||dni==='—'){showT('t-er','Guarde primero la asistencia principal','er');return;}
+
+  var id='ex-'+Date.now();
+  var div=document.createElement('div');
+  div.id=id;
+  div.style.cssText='background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:12px;margin-bottom:8px;position:relative';
+  div.innerHTML=
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">'
+    +'<span style="font-size:13px;font-weight:700;color:var(--txt2)">Labor adicional</span>'
+    +'<button onclick="document.getElementById(\''+id+'\').remove()" style="background:none;border:none;color:var(--txt3);cursor:pointer;padding:2px">'
+    +'<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="4" x2="4" y2="12"/><line x1="4" y1="4" x2="12" y2="12"/></svg></button></div>'
+    +'<div class="row2" style="gap:8px;margin-bottom:8px">'
+    +'<div><label style="font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:5px;display:block">Labor</label>'
+    +'<input type="text" class="ex-labor" placeholder="Ej: COS-002" style="font-size:15px;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--r-xs);background:#fff;color:var(--txt);width:100%;font-family:inherit;outline:none;appearance:none;-webkit-appearance:none" onfocus="this.style.borderColor=\'var(--red)\'" onblur="this.style.borderColor=\'var(--border)\'"></div>'
+    +'<div><label style="font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:5px;display:block">Lote</label>'
+    +'<input type="text" class="ex-lote" placeholder="Ej: LOTE-B" style="font-size:15px;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--r-xs);background:#fff;color:var(--txt);width:100%;font-family:inherit;outline:none;appearance:none;-webkit-appearance:none" onfocus="this.style.borderColor=\'var(--red)\'" onblur="this.style.borderColor=\'var(--border)\'"></div>'
+    +'</div>'
+    +'<div class="row2" style="gap:8px;margin-bottom:10px">'
+    +'<div><label style="font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:5px;display:block">H. Inicio</label>'
+    +'<input type="time" class="ex-hi" style="font-size:15px;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--r-xs);background:#fff;color:var(--txt);width:100%;font-family:inherit;outline:none;appearance:none;-webkit-appearance:none"></div>'
+    +'<div><label style="font-size:11px;font-weight:700;color:var(--txt2);margin-bottom:5px;display:block">H. Fin</label>'
+    +'<input type="time" class="ex-hf" style="font-size:15px;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--r-xs);background:#fff;color:var(--txt);width:100%;font-family:inherit;outline:none;appearance:none;-webkit-appearance:none"></div>'
+    +'</div>'
+    +'<button onclick="guardarExtra(\''+id+'\',\''+xe(dni)+'\',\''+xe(nombre)+'\')" class="btn btn-out btn-sm" style="width:100%">'
+    +'<svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="margin-right:4px"><polyline points="14 4 6 13 2 9"/></svg>'
+    +'Guardar esta labor</button>'
+    +'<div class="extra-saved" style="display:none;margin-top:8px"></div>';
+
+  document.getElementById('extras-list').appendChild(div);
+  div.querySelector('.ex-labor').focus();
+}
+
+function guardarExtra(id,dni,nombre){
+  var div =document.getElementById(id);
+  var labor=div.querySelector('.ex-labor').value.trim();
+  var lote =div.querySelector('.ex-lote').value.trim();
+  var hi   =div.querySelector('.ex-hi').value;
+  var hf   =div.querySelector('.ex-hf').value;
+  if(!labor||!lote){alert('Ingrese labor y lote');return;}
+  var btn=div.querySelector('button:last-of-type');
+  btn.innerHTML='<span class="spin spin-r"></span> Guardando...'; btn.disabled=true;
+  google.script.run
+    .withSuccessHandler(function(r){
+      if(r.ok){
+        var sd=div.querySelector('.extra-saved');
+        sd.style.display='flex'; sd.style.alignItems='center'; sd.style.gap='6px';
+        sd.style.color='var(--grn)'; sd.style.fontSize='13px'; sd.style.fontWeight='700';
+        sd.innerHTML='<span class="saved-dot"></span>Labor guardada: '+xe(labor)+' — '+xe(lote);
+        div.querySelectorAll('input').forEach(function(i){i.disabled=true;});
+        btn.style.display='none';
+      } else { btn.innerHTML='Guardar esta labor'; btn.disabled=false; alert(r.mensaje||'Error'); }
+    })
+    .withFailureHandler(function(e){btn.innerHTML='Guardar esta labor';btn.disabled=false;alert(e.message);})
+    .agregarLaborExtra({dni:dni,nombre:nombre,supervisor:SUP,
+                        codigoLabor:labor,lote:lote,horaInicio:hi,horaFin:hf});
+}
+
+/* ═════════════════════════════════════════════════
+   VISTA EXCEL
+════════════════════════════════════════════════= */
+var XL_ROWS=[];
+var XL_NEXT_ID=1;
+var xlAcTimers={};
+
+function xlInit(){
+  XL_ROWS=[];
+  for(var i=0;i<10;i++) xlAddRow();
+}
+
+function xlAddRow(){
+  var id='r'+(XL_NEXT_ID++);
+  XL_ROWS.push({id:id,saved:false});
+  var tr=document.createElement('tr');
+  tr.id='xl-tr-'+id;
+  tr.innerHTML=xlRowHTML(id,XL_ROWS.length);
+  document.getElementById('xl-body').appendChild(tr);
+  xlUpdCount();
+  // Colorear según estado inicial
+  xlUpdRowColor(id,'Trabajo');
+}
+
+function xlRowHTML(id,n){
+  return '<td class="rn">'+n+'</td>'
+  // DNI
+  +'<td class="ac-td col-dni">'
+  +'<input class="xl-cell" type="text" inputmode="numeric" maxlength="8" placeholder="DNI" id="xl-dni-'+id+'" '
+  +'oninput="xlDNIInput(\''+id+'\')" onkeydown="xlKey(event,\''+id+'\',\'dni\')">'
+  +'<div class="ac-drop" id="ac-xl-'+id+'"></div></td>'
+  // NOMBRE
+  +'<td class="col-nombre">'
+  +'<input class="xl-cell" type="text" placeholder="Nombre completo" id="xl-nom-'+id+'" '
+  +'oninput="xlNomInput(\''+id+'\')" onkeydown="xlKey(event,\''+id+'\',\'nom\')"></td>'
+  // ESTADO
+  +'<td class="col-estado"><select class="xl-sel s-work" id="xl-est-'+id+'" onchange="xlEstChange(\''+id+'\')">'
+  +'<option value="Trabajo">Trabajo</option>'
+  +'<option value="Descanso">Descanso</option>'
+  +'<option value="Falta">Falta</option>'
+  +'</select></td>'
+  // LABOR
+  +'<td class="col-labor"><input class="xl-cell" type="text" placeholder="Labor" id="xl-lab-'+id+'" onkeydown="xlKey(event,\''+id+'\',\'lab\')"></td>'
+  // LOTE
+  +'<td class="col-lote"><input class="xl-cell" type="text" placeholder="Lote" id="xl-lot-'+id+'" onkeydown="xlKey(event,\''+id+'\',\'lot\')"></td>'
+  // HI HF
+  +'<td class="col-hi"><input class="xl-time" type="time" id="xl-hi-'+id+'" onkeydown="xlKey(event,\''+id+'\',\'hi\')"></td>'
+  +'<td class="col-hf"><input class="xl-time" type="time" id="xl-hf-'+id+'" onkeydown="xlKey(event,\''+id+'\',\'hf\')"></td>'
+  // DEL
+  +'<td style="text-align:center"><button onclick="xlDelRow(\''+id+'\')" style="background:none;border:none;color:var(--txt3);cursor:pointer;padding:4px">'
+  +'<svg viewBox="0 0 14 14" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="10" y1="4" x2="4" y2="10"/><line x1="4" y1="4" x2="10" y2="10"/></svg></button></td>';
+}
+
+// Navegar con Tab/Enter entre celdas
+function xlKey(evt,id,col){
+  if(evt.key==='Tab'||evt.key==='Enter'){
+    evt.preventDefault();
+    var order=['dni','nom','lab','lot','hi','hf'];
+    var map={dni:'xl-dni-',nom:'xl-nom-',lab:'xl-lab-',lot:'xl-lot-',hi:'xl-hi-',hf:'xl-hf-'};
+    var idx=order.indexOf(col);
+    if(idx<order.length-1){
+      var next=document.getElementById(map[order[idx+1]]+id);
+      if(next)next.focus();
+    } else {
+      // mover a la siguiente fila, primera celda
+      var rowIds=XL_ROWS.map(function(r){return r.id;});
+      var ri=rowIds.indexOf(id);
+      if(ri<rowIds.length-1){
+        var nid=rowIds[ri+1];
+        var nxt=document.getElementById('xl-dni-'+nid);
+        if(nxt)nxt.focus();
+      } else { xlAddRow(); }
+    }
+  }
+}
+
+// DNI input — autocompletar nombre si existe en caché
+function xlDNIInput(id){
+  var val=document.getElementById('xl-dni-'+id).value.replace(/\D/g,'').slice(0,8);
+  document.getElementById('xl-dni-'+id).value=val;
+  if(val.length===8){
+    google.script.run
+      .withSuccessHandler(function(r){
+        if(r.encontrado){
+          var nomInp=document.getElementById('xl-nom-'+id);
+          if(!nomInp.value) nomInp.value=r.nombre;
+        }
+      })
+      .withFailureHandler(function(){})
+      .buscarNombrePorDni(val);
+  }
+}
+
+// NOMBRE input — autocompletar dropdown
+function xlNomInput(id){
+  var txt=document.getElementById('xl-nom-'+id).value;
+  var drop=document.getElementById('ac-xl-'+id);
+  clearTimeout(xlAcTimers[id]);
+  if(txt.length<2){drop.classList.remove('open');return;}
+  xlAcTimers[id]=setTimeout(function(){
+    google.script.run
+      .withSuccessHandler(function(list){
+        if(!list.length){drop.classList.remove('open');return;}
+        drop.innerHTML=list.map(function(o){
+          return '<div class="ac-item" onmousedown="xlAcPick(\''+id+'\',\''+xe(o.dni)+'\',\''+xe(o.nombre)+'\',event)">'
+            +'<div class="ac-name">'+xe(o.nombre)+'</div>'
+            +'<div class="ac-dni">'+xe(o.dni)+'</div></div>';
+        }).join('');
+        drop.classList.add('open');
+      })
+      .withFailureHandler(function(){drop.classList.remove('open');})
+      .buscarOperariosPorNombre(txt);
+  },250);
+}
+
+function xlAcPick(id,dni,nombre,evt){
+  if(evt)evt.preventDefault();
+  document.getElementById('xl-nom-'+id).value=nombre;
+  document.getElementById('xl-dni-'+id).value=dni;
+  document.getElementById('ac-xl-'+id).classList.remove('open');
+  document.getElementById('xl-lab-'+id).focus();
+}
+
+function xlEstChange(id){
+  var sel=document.getElementById('xl-est-'+id);
+  var v=sel.value;
+  sel.className='xl-sel '+(v==='Trabajo'?'s-work':v==='Descanso'?'s-rest':'s-abs');
+  xlUpdRowColor(id,v);
+  // Si no es Trabajo, vaciar labor/lote/horas
+  var isTrab=(v==='Trabajo');
+  ['xl-lab-','xl-lot-','xl-hi-','xl-hf-'].forEach(function(p){
+    var el=document.getElementById(p+id);
+    if(el){el.disabled=!isTrab; if(!isTrab)el.value='';}
+  });
+}
+
+function xlUpdRowColor(id,estado){
+  var tr=document.getElementById('xl-tr-'+id);
+  if(!tr)return;
+  tr.className=estado==='Descanso'?'row-rest':estado==='Falta'?'row-abs':'';
+}
+
+function xlDelRow(id){
+  var tr=document.getElementById('xl-tr-'+id);
+  if(tr)tr.remove();
+  XL_ROWS=XL_ROWS.filter(function(r){return r.id!==id;});
+  xlUpdCount(); xlRenumber();
+}
+
+function xlRenumber(){
+  var rows=document.getElementById('xl-body').querySelectorAll('tr');
+  rows.forEach(function(tr,i){ var td=tr.querySelector('.rn'); if(td)td.textContent=i+1; });
+}
+
+function xlUpdCount(){
+  document.getElementById('xl-count').textContent=
+    document.getElementById('xl-body').querySelectorAll('tr').length+' filas';
+}
+
+function xlClear(){
+  if(!confirm('¿Limpiar toda la tabla?'))return;
+  document.getElementById('xl-body').innerHTML='';
+  XL_ROWS=[]; xlInit();
+}
+
+function xlGuardar(){
+  var btn=document.getElementById('btn-xl-save');
+  var filas=[];
+  var hasData=false;
+  document.getElementById('xl-body').querySelectorAll('tr').forEach(function(tr){
+    var id=tr.id.replace('xl-tr-','');
+    var dni =(document.getElementById('xl-dni-'+id)||{}).value||'';
+    var nom =(document.getElementById('xl-nom-'+id)||{}).value||'';
+    var est =(document.getElementById('xl-est-'+id)||{}).value||'Trabajo';
+    var lab =(document.getElementById('xl-lab-'+id)||{}).value||'';
+    var lot =(document.getElementById('xl-lot-'+id)||{}).value||'';
+    var hi  =(document.getElementById('xl-hi-' +id)||{}).value||'';
+    var hf  =(document.getElementById('xl-hf-' +id)||{}).value||'';
+    if(dni.trim()||nom.trim()){
+      hasData=true;
+      filas.push({dni:dni.trim(),nombre:nom.trim(),estado:est,
+                  codigoLabor:lab.trim(),lote:lot.trim(),horaInicio:hi,horaFin:hf});
+    }
+  });
+  if(!hasData){showT('t-xl-er','No hay datos para guardar','er');return;}
+  // Validar mínimos
+  var errores=[];
+  filas.forEach(function(f,i){
+    if(!f.dni||f.dni.length!==8)errores.push('Fila '+(i+1)+': DNI inválido');
+    else if(!f.nombre)errores.push('Fila '+(i+1)+': nombre vacío');
+    else if(f.estado==='Trabajo'&&(!f.codigoLabor||!f.lote))
+      errores.push('Fila '+(i+1)+': faltan labor y lote');
+  });
+  if(errores.length){showT('t-xl-er',errores[0]+' ('+errores.length+' error(es))','er');return;}
+
+  btn.innerHTML='<span class="spin"></span> Guardando '+filas.length+' registros...';
+  btn.disabled=true;
+  document.getElementById('t-xl-ok').classList.remove('on');
+  document.getElementById('t-xl-er').classList.remove('on');
+
+  google.script.run
+    .withSuccessHandler(function(r){
+      btn.innerHTML='<svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" style="margin-right:5px"><polyline points="14 4 6 13 2 9"/></svg>Guardar todo';
+      btn.disabled=false;
+      if(r.ok){
+        showT('t-xl-ok','Se guardaron '+r.guardados+' registro(s) correctamente','ok');
+        // Marcar filas guardadas con punto verde
+        var idx=0;
+        document.getElementById('xl-body').querySelectorAll('tr').forEach(function(tr){
+          var id=tr.id.replace('xl-tr-','');
+          var dni=(document.getElementById('xl-dni-'+id)||{}).value||'';
+          if(dni.trim()&&idx<r.guardados){
+            var rn=tr.querySelector('.rn');
+            if(rn)rn.innerHTML='<span class="saved-dot"></span>';
+            idx++;
+          }
+        });
+      } else showT('t-xl-er',r.mensaje||'Error al guardar','er');
+    })
+    .withFailureHandler(function(e){
+      btn.innerHTML='<svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" style="margin-right:5px"><polyline points="14 4 6 13 2 9"/></svg>Guardar todo';
+      btn.disabled=false; showT('t-xl-er','Error: '+e.message,'er');
+    })
+    .registrarMasivo(SUP,filas);
+}
+
+/* ═══════════ LISTA HOY ═══════════ */
+function cargarHoy(){
+  document.getElementById('lista-hoy').innerHTML='<p class="empty"><span class="spin spin-r"></span></p>';
+  google.script.run
+    .withSuccessHandler(function(list){
+      document.getElementById('cnt-hoy').textContent=list.length;
+      var trab=list.filter(function(r){return r.estado==='Trabajo';}).length;
+      var desc=list.filter(function(r){return r.estado==='Descanso';}).length;
+      var falt=list.filter(function(r){return r.estado==='Falta';}).length;
+      document.getElementById('sub-stats-hoy').textContent=
+        trab+' trabajo · '+desc+' descanso · '+falt+' falta';
+      if(!list.length){document.getElementById('lista-hoy').innerHTML='<p class="empty">Sin registros para hoy</p>';return;}
+      document.getElementById('lista-hoy').innerHTML=list.map(function(r){
+        var cls=r.estado==='Descanso'?'reg-item item-rest':r.estado==='Falta'?'reg-item item-abs':'reg-item';
+        var stBadge=r.estado==='Trabajo'
+          ?'<span class="chip ch-grn">'+svgBriefcase()+xe(r.codigoLabor)+'</span>'
+          :r.estado==='Descanso'
+          ?'<span class="badge badge-rest" style="padding:2px 8px;font-size:11px">Descanso</span>'
+          :'<span class="badge badge-abs" style="padding:2px 8px;font-size:11px">Falta</span>';
+        return '<div class="'+cls+'">'
+          +'<div class="reg-name">'+xe(r.nombre)+'</div>'
+          +'<div class="reg-meta">'
+          +'<span class="chip ch-gray">'+svgID()+xe(r.dni)+'</span>'
+          +stBadge
+          +(r.estado==='Trabajo'?'<span class="chip ch-gray">'+svgHex()+xe(r.lote)+'</span>':'')
+          +(r.estado==='Trabajo'&&r.horaInicio?'<span class="chip ch-red">'+svgClock()+xe(r.horaInicio)+(r.horaFin?' — '+xe(r.horaFin):'')+'</span>':'')
+          +'</div></div>';
+      }).join('');
+    })
+    .withFailureHandler(function(){document.getElementById('lista-hoy').innerHTML='<p class="empty">Error al cargar</p>';})
+    .getRegistrosDia(SUP);
+}
+
+function cargarPers(){
+  document.getElementById('lista-pers').innerHTML='<p class="empty"><span class="spin spin-r"></span></p>';
+  google.script.run
+    .withSuccessHandler(function(list){
+      if(!list.length){document.getElementById('lista-pers').innerHTML='<p class="empty">Sin personal aún</p>';return;}
+      document.getElementById('lista-pers').innerHTML=list.map(function(r){
+        return '<div class="reg-item"><div class="reg-name">'+xe(r.nombre)+'</div>'
+          +'<div class="reg-meta">'
+          +'<span class="chip ch-gray">'+svgID()+xe(r.dni)+'</span>'
+          +'<span class="chip ch-grn">Desde: '+xe(r.primeraVez)+'</span>'
+          +'<span class="chip ch-red">Último: '+xe(r.ultimaVez)+'</span>'
+          +'</div></div>';
+      }).join('');
+    })
+    .withFailureHandler(function(){document.getElementById('lista-pers').innerHTML='<p class="empty">Error al cargar</p>';})
+    .getHistorialSupervisor(SUP);
+}
+
+/* ═══════════ MINI SVG ICONS ═══════════ */
+function svgID(){return '<svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2" width="10" height="8" rx="1"/><circle cx="4" cy="5.5" r="1"/><line x1="7" y1="4" x2="10" y2="4"/><line x1="7" y1="6" x2="10" y2="6"/></svg> ';}
+function svgClock(){return '<svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="4.5"/><polyline points="6 3 6 6.5 8 7.5"/></svg> ';}
+function svgBriefcase(){return '<svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="8" height="7" rx="1"/><path d="M4 3V2a2 2 0 014 0v1"/></svg> ';}
+function svgHex(){return '<svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 1L11 4v4L6 11 1 8V4z"/></svg> ';}
+
+/* ═══════════ TOASTS + UTILS ═══════════ */
+function showT(id,msg,type){var e=document.getElementById(id);if(!e)return;e.textContent=msg;e.className='toast on '+type;}
+function clrT(){document.querySelectorAll('.toast').forEach(function(e){e.classList.remove('on');});}
+function xe(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+/* ═══════════ LÓGICA DE ESCÁNER QR ═══════════ */
+var html5QrCode = null;
+var currentCameraId = null;
+var camerasList = [];
+var currentDniMode = 'kp'; // 'kp' o 'qr'
+
+function switchDniMode(mode) {
+  currentDniMode = mode;
+  document.getElementById('dni-kp-container').style.display = mode === 'kp' ? 'block' : 'none';
+  document.getElementById('dni-qr-container').style.display = mode === 'qr' ? 'block' : 'none';
+  
+  var btnKp = document.getElementById('btn-toggle-kp');
+  var btnQr = document.getElementById('btn-toggle-qr');
+  
+  if (mode === 'kp') {
+    btnKp.className = 'btn btn-xs btn-red';
+    btnQr.className = 'btn btn-xs btn-ghost';
+    stopQrScan();
+  } else {
+    btnKp.className = 'btn btn-xs btn-ghost';
+    btnQr.className = 'btn btn-xs btn-red';
+  }
+  clrT();
+}
+
+function playBip() {
+  try {
+    var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var oscillator = audioCtx.createOscillator();
+    var gainNode = audioCtx.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    
+    oscillator.type = 'sine';
+    oscillator.frequency.value = 1000; 
+    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime); 
+    
+    oscillator.start();
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15); 
+    oscillator.stop(audioCtx.currentTime + 0.15);
+  } catch (e) {
+    console.warn("Audio Context no soportado o no permitido", e);
+  }
+}
+
+function startQrScan() {
+  document.getElementById('qr-options-view').style.display = 'none';
+  document.getElementById('qr-scanner-view').style.display = 'block';
+  document.getElementById('qr-result-box').style.display = 'none';
+  clrT();
+
+  if (!html5QrCode) {
+    html5QrCode = new Html5Qrcode("qr-reader");
+  }
+
+  Html5Qrcode.getCameras().then(function(devices) {
+    if (devices && devices.length) {
+      camerasList = devices;
+      // Por defecto la cámara trasera (suele tener 'back' o 'entorno' en la etiqueta, o es la última)
+      var backCam = devices.find(function(device) {
+        return device.label.toLowerCase().indexOf('back') > -1 || 
+               device.label.toLowerCase().indexOf('entorno') > -1;
+      });
+      var selectCam = backCam ? backCam : devices[devices.length - 1];
+      currentCameraId = selectCam.id;
+      
+      startScanning(currentCameraId);
+    } else {
+      startScanning({ facingMode: "environment" });
+    }
+  }).catch(function(err) {
+    startScanning({ facingMode: "environment" });
+  });
+}
+
+function startScanning(cameraConfig) {
+  html5QrCode.start(
+    cameraConfig,
+    {
+      fps: 15,
+      qrbox: { width: 200, height: 200 }
+    },
+    onQrCodeSuccess,
+    onQrCodeError
+  ).catch(function(err) {
+    showT('t-dni', 'No se pudo iniciar la cámara: ' + err, 'er');
+    stopQrScan();
+  });
+}
+
+function stopQrScan() {
+  if (html5QrCode && html5QrCode.isScanning) {
+    html5QrCode.stop().then(function() {
+      document.getElementById('qr-scanner-view').style.display = 'none';
+      document.getElementById('qr-options-view').style.display = 'block';
+    }).catch(function(err) {
+      console.error('Error al detener escáner QR:', err);
+    });
+  } else {
+    document.getElementById('qr-scanner-view').style.display = 'none';
+    document.getElementById('qr-options-view').style.display = 'block';
+  }
+}
+
+function changeCamera() {
+  if (camerasList.length < 2) {
+    showT('t-dni', 'Solo se detectó una cámara en este dispositivo.', 'er');
+    return;
+  }
+  if (!html5QrCode || !html5QrCode.isScanning) return;
+
+  var currentIndex = camerasList.findIndex(function(c) { return c.id === currentCameraId; });
+  var nextIndex = (currentIndex + 1) % camerasList.length;
+  currentCameraId = camerasList[nextIndex].id;
+
+  html5QrCode.stop().then(function() {
+    startScanning(currentCameraId);
+  }).catch(function(err) {
+    console.error('Error al cambiar de cámara:', err);
+  });
+}
+
+function onQrCodeSuccess(decodedText) {
+  playBip();
+  
+  // Limpiar caracteres no numéricos
+  var cleanDni = decodedText.replace(/\D/g, '');
+  
+  // Si es más largo que 8, tomar los últimos 8
+  if (cleanDni.length > 8) {
+    cleanDni = cleanDni.slice(-8);
+  }
+  
+  // Rellenar ceros a la izquierda
+  while (cleanDni.length < 8 && cleanDni.length > 0) {
+    cleanDni = '0' + cleanDni;
+  }
+
+  if (cleanDni.length !== 8) {
+    showT('t-dni', 'Código no contiene un DNI válido (8 dígitos): ' + decodedText, 'er');
+    return;
+  }
+
+  // Visualizar resultado
+  var resBox = document.getElementById('qr-result-box');
+  resBox.style.display = 'flex';
+  document.getElementById('qr-scanned-val').textContent = cleanDni;
+
+  // Detener escaneo
+  if (html5QrCode && html5QrCode.isScanning) {
+    html5QrCode.stop().then(function() {
+      document.getElementById('qr-scanner-view').style.display = 'none';
+      document.getElementById('qr-options-view').style.display = 'block';
+      procesarDNI(cleanDni);
+    });
+  } else {
+    procesarDNI(cleanDni);
+  }
+}
+
+function onQrCodeError(errorMessage) {
+  // Ignorar errores de lectura de frames (común mientras busca)
+}
+
+function handleQrFile(input) {
+  if (input.files.length === 0) return;
+  var file = input.files[0];
+  clrT();
+  
+  if (!html5QrCode) {
+    html5QrCode = new Html5Qrcode("qr-reader");
+  }
+
+  var uploadBtn = document.getElementById('qr-drag-drop');
+  var originalHTML = uploadBtn.innerHTML;
+  uploadBtn.innerHTML = '<span class="spin spin-r"></span> Leyendo archivo de imagen...';
+
+  html5QrCode.scanFile(file, true)
+    .then(function(decodedText) {
+      uploadBtn.innerHTML = originalHTML;
+      input.value = '';
+      onQrCodeSuccess(decodedText);
+    })
+    .catch(function(err) {
+      uploadBtn.innerHTML = originalHTML;
+      input.value = '';
+      showT('t-dni', 'No se pudo detectar ningún código QR en la imagen.', 'er');
+    });
+}
+
+/* Init */
+document.getElementById('inp-pw').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+updDNI(); setEstado('Trabajo');
+</script>
+</body>
+</html>

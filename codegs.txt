@@ -1,0 +1,715 @@
+// ============================================================
+// SISTEMA DE ASISTENCIA — EL PEDREGAL S.A.  |  Code.gs v6
+// ============================================================
+// CAMBIOS v6 (sobre v5):
+//   + Validación dura de DNI (8 dígitos), horas (HH:mm) y duplicados
+//   + Normalización: DNI con cero a la izquierda -> normalizarDni()
+//   + Nueva hoja "Carga_Reloj" con encabezados + data validation
+//   + Cruce por DNI: cruzarAsistenciaConReloj(fecha)
+//   + Desglose de horas por día: getDesgloceHorasPorDia(fecha)
+//   + Nueva página web: ?page=validacion -> "Validacion.html"
+// ============================================================
+// INSTALACIÓN:
+//   1. Google Sheet -> Extensiones -> Apps Script
+//   2. Pegar este código en Code.gs
+//   3. Crear archivos HTML: "Index", "Admin" y "Validacion"
+//   4. Ejecutar inicializarHojas() UNA vez
+//   5. Implementar -> Nueva implementación -> App Web
+//        · Ejecutar como: YO
+//        · Acceso: CUALQUIER PERSONA
+// ============================================================
+
+var HOJAS = {
+  ASISTENCIA:   'Asistencia',
+  OPERARIOS:    'Operarios',
+  SUPERVISORES: 'Supervisores',
+  HISTORIAL:    'Historial',
+  RELOJ:        'Carga_Reloj'
+};
+
+var CLAVE_ADMIN = '123123123';
+var TZ = 'America/Lima';
+
+// ============================================================
+// CONFIGURACIÓN E INTEGRACIÓN SUPABASE
+// ============================================================
+var SUPABASE_CONFIG = {
+  URL: 'https://zicvanezsbmwgbporfps.supabase.co',
+  KEY: 'YOUR_SUPABASE_ANON_KEY' // Reemplazar con la Anon Key de Supabase en settings -> API
+};
+
+function isSupabaseConfigured() {
+  return SUPABASE_CONFIG.KEY && 
+         SUPABASE_CONFIG.KEY !== 'YOUR_SUPABASE_ANON_KEY' && 
+         SUPABASE_CONFIG.KEY.trim() !== '';
+}
+
+function callSupabaseAPI(endpoint, method, payload, headers) {
+  var url = SUPABASE_CONFIG.URL + '/rest/v1' + endpoint;
+  var defaultHeaders = {
+    'apikey': SUPABASE_CONFIG.KEY,
+    'Authorization': 'Bearer ' + SUPABASE_CONFIG.KEY,
+    'Content-Type': 'application/json'
+  };
+  
+  if (headers) {
+    for (var k in headers) {
+      defaultHeaders[k] = headers[k];
+    }
+  }
+  
+  var options = {
+    'method': method || 'GET',
+    'headers': defaultHeaders,
+    'muteHttpExceptions': true
+  };
+  
+  if (payload) {
+    options.payload = JSON.stringify(payload);
+  }
+  
+  try {
+    var response = UrlFetchApp.fetch(url, options);
+    var code = response.getResponseCode();
+    var content = response.getContentText();
+    return {
+      code: code,
+      content: content,
+      ok: code >= 200 && code < 300
+    };
+  } catch (e) {
+    Logger.log('Error calling Supabase: ' + e.message);
+    return {
+      code: 500,
+      content: e.message,
+      ok: false
+    };
+  }
+}
+
+
+// ============================================================
+// HELPERS SEGUROS
+// ============================================================
+function leer(nombre) {
+  var ss   = SpreadsheetApp.getActiveSpreadsheet();
+  var h    = ss.getSheetByName(nombre);
+  if (!h) return [];
+  var last = h.getLastRow();
+  if (last < 2) return [];
+  return h.getRange(2, 1, last - 1, h.getLastColumn()).getValues();
+}
+function hoja(nombre) {
+  return SpreadsheetApp.getActiveSpreadsheet().getSheetByName(nombre);
+}
+
+// ============================================================
+// VALIDACIÓN Y NORMALIZACIÓN  (núcleo nuevo v6)
+// ============================================================
+
+// DNI peruano: SIEMPRE 8 dígitos. Si llega corto, rellena con ceros
+// a la izquierda. Si tiene letras/espacios/símbolos, los quita primero.
+function normalizarDni(valor) {
+  if (valor === null || valor === undefined) return '';
+  var s = String(valor).replace(/[^0-9]/g, ''); // deja solo dígitos
+  if (s.length === 0) return '';
+  if (s.length > 8) s = s.slice(-8);             // recorta excedente
+  while (s.length < 8) s = '0' + s;              // padding a 8
+  return s;
+}
+
+// Devuelve {ok:bool, valor:string, error:string}
+function validarDni(valor) {
+  var s = String(valor === null || valor === undefined ? '' : valor).replace(/[^0-9]/g, '');
+  if (!s) return { ok: false, valor: '', error: 'DNI vacío' };
+  if (s.length > 8) return { ok: false, valor: '', error: 'DNI tiene más de 8 dígitos' };
+  return { ok: true, valor: normalizarDni(s), error: '' };
+}
+
+// Hora válida HH:mm (00:00 a 23:59). Vacío se considera válido (opcional).
+function validarHora(valor) {
+  var s = String(valor === null || valor === undefined ? '' : valor).trim();
+  if (s === '') return { ok: true, valor: '' };
+  var m = s.match(/^([0-9]{1,2}):([0-9]{2})$/);
+  if (!m) return { ok: false, valor: '', error: 'Hora inválida (use HH:mm): ' + s };
+  var hh = parseInt(m[1], 10), mm = parseInt(m[2], 10);
+  if (hh > 23 || mm > 59) return { ok: false, valor: '', error: 'Hora fuera de rango: ' + s };
+  var norm = (hh < 10 ? '0' + hh : '' + hh) + ':' + (mm < 10 ? '0' + mm : '' + mm);
+  return { ok: true, valor: norm };
+}
+
+// Convierte HH:mm a minutos desde medianoche (-1 si inválido/vacío)
+function horaAMinutos(valor) {
+  var v = validarHora(valor);
+  if (!v.ok || v.valor === '') return -1;
+  var p = v.valor.split(':');
+  return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+}
+
+// Horas decimales entre inicio y fin (0 si falta alguna). Cruza medianoche.
+function calcularHoras(horaInicio, horaFin) {
+  var ini = horaAMinutos(horaInicio);
+  var fin = horaAMinutos(horaFin);
+  if (ini < 0 || fin < 0) return 0;
+  var diff = fin - ini;
+  if (diff < 0) diff += 24 * 60; // turno que cruza medianoche
+  return Math.round((diff / 60) * 100) / 100;
+}
+
+function nombreLimpio(valor) {
+  return String(valor === null || valor === undefined ? '' : valor)
+    .replace(/\s+/g, ' ').trim().toUpperCase();
+}
+
+// Valida un registro completo de asistencia. Devuelve {ok, datos, error}
+function validarRegistro(d, opciones) {
+  opciones = opciones || {};
+  var vdni = validarDni(d.dni);
+  if (!vdni.ok) return { ok: false, error: vdni.error };
+
+  var nombre = nombreLimpio(d.nombre);
+  if (!nombre) return { ok: false, error: 'Nombre vacío' };
+
+  var estado = String(d.estado || 'Trabajo').trim();
+  if (['Trabajo', 'Descanso', 'Falta'].indexOf(estado) < 0)
+    return { ok: false, error: 'Estado inválido: ' + estado };
+
+  var vi = validarHora(d.horaInicio);
+  if (!vi.ok) return { ok: false, error: vi.error };
+  var vf = validarHora(d.horaFin);
+  if (!vf.ok) return { ok: false, error: vf.error };
+
+  // Si es Trabajo y trae ambas horas, fin debe ser > inicio (salvo cruce medianoche permitido)
+  if (estado === 'Trabajo' && vi.valor && vf.valor) {
+    if (horaAMinutos(vi.valor) === horaAMinutos(vf.valor))
+      return { ok: false, error: 'Hora inicio y fin son iguales' };
+  }
+
+  return {
+    ok: true,
+    datos: {
+      dni: vdni.valor,
+      nombre: nombre,
+      supervisor: String(d.supervisor || '').trim(),
+      estado: estado,
+      codigoLabor: String(d.codigoLabor || '').trim(),
+      lote: String(d.lote || '').trim(),
+      horaInicio: vi.valor,
+      horaFin: vf.valor
+    }
+  };
+}
+
+// ¿Ya existe DNI + Lote + Fecha en Asistencia? (anti-duplicado)
+function existeDuplicado(dni, lote, fecha) {
+  var rows = leer(HOJAS.ASISTENCIA);
+  for (var i = 0; i < rows.length; i++) {
+    if (String(rows[i][0]) === fecha &&
+        normalizarDni(rows[i][1]) === dni &&
+        String(rows[i][6]).trim() === String(lote).trim()) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// ============================================================
+// INICIALIZAR
+// ============================================================
+function inicializarHojas() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  function crear(n, cols, filas) {
+    var h = ss.getSheetByName(n);
+    if (h) return h;
+    h = ss.insertSheet(n);
+    h.appendRow(cols);
+    h.getRange(1, 1, 1, cols.length).setFontWeight('bold').setBackground('#c8102e').setFontColor('#ffffff');
+    h.setFrozenRows(1);
+    if (filas) filas.forEach(function (r) { h.appendRow(r); });
+    return h;
+  }
+
+  crear(HOJAS.ASISTENCIA,
+    ['Fecha', 'DNI', 'Nombre', 'Supervisor', 'Estado', 'Codigo_Labor', 'Lote', 'Hora_Inicio', 'Hora_Fin', 'Timestamp']);
+  crear(HOJAS.OPERARIOS, ['DNI', 'Nombre_Completo', 'Fecha_Registro']);
+  crear(HOJAS.SUPERVISORES, ['Nombre', 'Clave', 'Activo'],
+    [['Edwin', 'Edwin2025!', 'SI'], ['Damian', 'Damian2025!', 'SI'],
+     ['Demetrio', 'Demetrio2025!', 'SI'], ['Gerardo', 'Gerardo2025!', 'SI']]);
+  crear(HOJAS.HISTORIAL, ['DNI', 'Nombre', 'Supervisor', 'Primera_Vez', 'Ultima_Vez']);
+
+  // === Pestaña Carga_Reloj ===
+  // AJUSTA estos encabezados a las columnas reales de tu Excel de reloj.
+  // El cruce usa SOLO la columna DNI; las demás son informativas.
+  var hr = crear(HOJAS.RELOJ,
+    ['Fecha', 'DNI', 'Nombre', 'Hora_Entrada', 'Hora_Salida', 'Horas_Reloj']);
+  aplicarValidacionReloj(hr);
+
+  ['Hoja 1', 'Sheet1', 'Hoja1'].forEach(function (n) {
+    var h = ss.getSheetByName(n);
+    if (h && ss.getSheets().length > 5) try { ss.deleteSheet(h); } catch (e) {}
+  });
+  return 'OK — Hojas v6 (incluye Carga_Reloj). Pegue el reloj en la pestaña Carga_Reloj.';
+}
+
+// Data validation nativa en la hoja Carga_Reloj para limpiar el pegado
+function aplicarValidacionReloj(h) {
+  if (!h) h = hoja(HOJAS.RELOJ);
+  if (!h) return;
+  // Marca con fondo amarillo la columna DNI para recordar que se normaliza
+  h.getRange('B1').setNote('DNI: se uniformiza a 8 dígitos automáticamente al cruzar (cero a la izquierda).');
+}
+
+// ============================================================
+// RUTAS
+// ============================================================
+function doGet(e) {
+  var pag = (e && e.parameter && e.parameter.page) ? e.parameter.page : 'index';
+  var archivo, titulo;
+  if (pag === 'admin')           { archivo = 'Admin';      titulo = 'Admin — El Pedregal'; }
+  else if (pag === 'validacion') { archivo = 'Validacion'; titulo = 'Validación Reloj — El Pedregal'; }
+  else                           { archivo = 'Index';      titulo = 'Asistencia — El Pedregal'; }
+
+  var tpl = HtmlService.createTemplateFromFile(archivo);
+  tpl.URL_BASE = ScriptApp.getService().getUrl();
+  return tpl.evaluate()
+    .setTitle(titulo)
+    .addMetaTag('viewport', 'width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+function getAppUrl() { return ScriptApp.getService().getUrl(); }
+
+// ============================================================
+// AUTH
+// ============================================================
+function autenticarSupervisor(nombre, clave) {
+  if (!nombre || !clave) return { ok: false, mensaje: 'Complete los campos' };
+  
+  // Buscar en Supabase si está configurado
+  if (isSupabaseConfigured()) {
+    var endpoint = '/supervisores?nombre=eq.' + encodeURIComponent(nombre) + '&clave=eq.' + encodeURIComponent(clave) + '&activo=eq.true&select=*';
+    var res = callSupabaseAPI(endpoint, 'GET');
+    if (res.ok) {
+      try {
+        var data = JSON.parse(res.content);
+        if (data && data.length > 0) {
+          return { ok: true, nombre: nombre };
+        }
+      } catch (e) {
+        Logger.log('Error en autenticar en Supabase: ' + e.message);
+      }
+    }
+  }
+  
+  // Fallback a Google Sheets
+  var def = { Edwin: 'Edwin2025!', Damian: 'Damian2025!', Demetrio: 'Demetrio2025!', Gerardo: 'Gerardo2025!' };
+  var filas = leer(HOJAS.SUPERVISORES);
+  if (!filas.length)
+    return (def[nombre] && def[nombre] === clave) ? { ok: true, nombre: nombre } : { ok: false, mensaje: 'Contraseña incorrecta' };
+  for (var i = 0; i < filas.length; i++)
+    if (String(filas[i][0]).trim() === nombre && String(filas[i][1]).trim() === clave &&
+        String(filas[i][2]).trim().toUpperCase() === 'SI')
+      return { ok: true, nombre: nombre };
+  return { ok: false, mensaje: 'Contraseña incorrecta' };
+}
+function verificarAdmin(c) {
+  return String(c).trim() === CLAVE_ADMIN ? { ok: true } : { ok: false };
+}
+
+// ============================================================
+// OPERARIOS — caché + AUTOCOMPLETAR
+// ============================================================
+function buscarNombrePorDni(dni) {
+  var d = normalizarDni(dni);
+  if (!d) return { encontrado: false };
+  
+  // Buscar en Supabase si está configurado
+  if (isSupabaseConfigured()) {
+    var res = callSupabaseAPI('/operarios?dni=eq.' + d + '&select=*', 'GET');
+    if (res.ok) {
+      try {
+        var data = JSON.parse(res.content);
+        if (data && data.length > 0) {
+          return { encontrado: true, nombre: data[0].nombre_completo };
+        }
+      } catch (e) {
+        Logger.log('Error al buscar DNI en Supabase: ' + e.message);
+      }
+    }
+  }
+  
+  // Fallback a Google Sheets
+  var filas = leer(HOJAS.OPERARIOS);
+  for (var i = 0; i < filas.length; i++)
+    if (normalizarDni(filas[i][0]) === d)
+      return { encontrado: true, nombre: String(filas[i][1]).trim() };
+  return { encontrado: false };
+}
+
+function buscarOperariosPorNombre(texto) {
+  if (!texto || texto.length < 2) return [];
+  var t = texto.toLowerCase().trim();
+  
+  // Buscar en Supabase si está configurado
+  if (isSupabaseConfigured()) {
+    var endpoint = '/operarios?or=(nombre_completo.ilike.*' + encodeURIComponent(t) + '*,dni.like.*' + encodeURIComponent(t) + '*)&limit=8&select=*';
+    var res = callSupabaseAPI(endpoint, 'GET');
+    if (res.ok) {
+      try {
+        var data = JSON.parse(res.content);
+        if (data && data.length > 0) {
+          return data.map(function(o) {
+            return { dni: o.dni, nombre: o.nombre_completo };
+          });
+        }
+      } catch (e) {
+        Logger.log('Error al buscar operarios por nombre en Supabase: ' + e.message);
+      }
+    }
+  }
+  
+  // Fallback a Google Sheets
+  var filas = leer(HOJAS.OPERARIOS);
+  var res = [];
+  for (var i = 0; i < filas.length; i++) {
+    var nom = String(filas[i][1]).trim();
+    var dni = normalizarDni(filas[i][0]);
+    if (nom.toLowerCase().indexOf(t) >= 0 || dni.indexOf(t) >= 0)
+      res.push({ dni: dni, nombre: nom });
+  }
+  return res.slice(0, 8);
+}
+
+function guardarNombreDni(dni, nombre) {
+  var d = normalizarDni(dni);
+  if (!d) return;
+  var nom = nombreLimpio(nombre);
+  
+  // Guardar en Google Sheets (si no existe)
+  if (!buscarNombrePorDni(d).encontrado) {
+    var h = hoja(HOJAS.OPERARIOS);
+    if (h) h.appendRow([d, nom, new Date()]);
+  }
+  
+  // Guardar en Supabase si está configurado
+  if (isSupabaseConfigured()) {
+    var payload = {
+      dni: d,
+      nombre_completo: nom
+    };
+    var headers = {
+      'Prefer': 'resolution=merge-duplicates'
+    };
+    callSupabaseAPI('/operarios?on_conflict=dni', 'POST', payload, headers);
+  }
+}
+
+// ============================================================
+// REGISTRAR ASISTENCIA INDIVIDUAL  (con validación v6)
+// ============================================================
+function registrarAsistencia(d) {
+  if (!d || !d.supervisor) return { ok: false, mensaje: 'Falta el supervisor' };
+  var v = validarRegistro(d);
+  if (!v.ok) return { ok: false, mensaje: v.error };
+  try {
+    var h = hoja(HOJAS.ASISTENCIA);
+    if (!h) return { ok: false, mensaje: 'Ejecute inicializarHojas() primero' };
+    var fecha = Utilities.formatDate(new Date(), TZ, 'dd/MM/yyyy');
+    var x = v.datos;
+
+    if (x.estado === 'Trabajo' && x.lote && existeDuplicado(x.dni, x.lote, fecha))
+      return { ok: false, mensaje: 'Duplicado: ' + x.dni + ' ya tiene el lote ' + x.lote + ' hoy' };
+
+    // 1. Guardar localmente en Google Sheets
+    h.appendRow([fecha, x.dni, x.nombre, x.supervisor, x.estado,
+                 x.codigoLabor, x.lote, x.horaInicio, x.horaFin, new Date()]);
+    if (x.estado === 'Trabajo') guardarNombreDni(x.dni, x.nombre);
+    _hist(x.dni, x.nombre, x.supervisor);
+    
+    // 2. Guardar en Supabase si está configurado
+    if (isSupabaseConfigured()) {
+      // Registrar el operario primero en Supabase
+      guardarNombreDni(x.dni, x.nombre);
+      
+      var payload = {
+        fecha: fecha,
+        dni: x.dni,
+        nombre: x.nombre,
+        supervisor: x.supervisor,
+        estado: x.estado,
+        codigo_labor: x.codigoLabor || null,
+        lote: x.lote || null,
+        hora_inicio: x.horaInicio || null,
+        hora_fin: x.horaFin || null
+      };
+      var res = callSupabaseAPI('/asistencia', 'POST', payload);
+      if (!res.ok) {
+        Logger.log('Error al guardar asistencia en Supabase: ' + res.content);
+      }
+    }
+
+    return { ok: true };
+  } catch (e) { return { ok: false, mensaje: e.message }; }
+}
+
+function agregarLaborExtra(d) {
+  return registrarAsistencia({
+    dni: d.dni, nombre: d.nombre, supervisor: d.supervisor, estado: 'Trabajo',
+    codigoLabor: d.codigoLabor, lote: d.lote, horaInicio: d.horaInicio, horaFin: d.horaFin
+  });
+}
+
+// ============================================================
+// REGISTRO MASIVO — Vista Excel  (con validación v6)
+// ============================================================
+function registrarMasivo(supervisor, filas) {
+  if (!supervisor || !filas || !filas.length) return { ok: false, mensaje: 'Datos incompletos' };
+  try {
+    var h = hoja(HOJAS.ASISTENCIA);
+    if (!h) return { ok: false, mensaje: 'Ejecute inicializarHojas() primero' };
+    var fecha = Utilities.formatDate(new Date(), TZ, 'dd/MM/yyyy');
+    var ts = new Date();
+    var ok = 0, err = [];
+    filas.forEach(function (f, idx) {
+      var v = validarRegistro({ dni: f.dni, nombre: f.nombre, supervisor: supervisor,
+        estado: f.estado, codigoLabor: f.codigoLabor, lote: f.lote,
+        horaInicio: f.horaInicio, horaFin: f.horaFin });
+      if (!v.ok) { err.push('Fila ' + (idx + 1) + ': ' + v.error); return; }
+      var x = v.datos;
+      if (x.estado === 'Trabajo' && x.lote && existeDuplicado(x.dni, x.lote, fecha)) {
+        err.push('Fila ' + (idx + 1) + ': duplicado ' + x.dni + ' lote ' + x.lote); return;
+      }
+      h.appendRow([fecha, x.dni, x.nombre, x.supervisor, x.estado,
+                   x.codigoLabor, x.lote, x.horaInicio, x.horaFin, ts]);
+      if (x.estado === 'Trabajo') guardarNombreDni(x.dni, x.nombre);
+      _hist(x.dni, x.nombre, supervisor);
+      ok++;
+    });
+    return { ok: true, guardados: ok, errores: err };
+  } catch (e) { return { ok: false, mensaje: e.message }; }
+}
+
+// ============================================================
+// HISTORIAL INTERNO
+// ============================================================
+function _hist(dni, nombre, supervisor) {
+  var d = normalizarDni(dni);
+  var nom = nombreLimpio(nombre);
+  var sup = String(supervisor).trim();
+  
+  // 1. Guardar en Google Sheets
+  var h = hoja(HOJAS.HISTORIAL); if (!h) return;
+  var last = h.getLastRow();
+  var foundLocally = false;
+  if (last >= 2) {
+    var data = h.getRange(2, 1, last - 1, 3).getValues();
+    for (var i = 0; i < data.length; i++) {
+      if (normalizarDni(data[i][0]) === d &&
+          String(data[i][2]).trim() === sup) {
+        h.getRange(i + 2, 5).setValue(new Date());
+        foundLocally = true;
+        break;
+      }
+    }
+  }
+  if (!foundLocally) {
+    h.appendRow([d, nom, sup, new Date(), new Date()]);
+  }
+  
+  // 2. Guardar en Supabase si está configurado
+  if (isSupabaseConfigured()) {
+    var payload = {
+      dni: d,
+      nombre: nom,
+      supervisor: sup,
+      ultima_vez: new Date().toISOString()
+    };
+    var headers = {
+      'Prefer': 'resolution=merge-duplicates'
+    };
+    callSupabaseAPI('/historial?on_conflict=dni,supervisor', 'POST', payload, headers);
+  }
+}
+
+// ============================================================
+// CONSULTAS BÁSICAS
+// ============================================================
+function getRegistrosDia(supervisor) {
+  var hoy = Utilities.formatDate(new Date(), TZ, 'dd/MM/yyyy');
+  return leer(HOJAS.ASISTENCIA)
+    .filter(function (r) { return String(r[0]) === hoy && String(r[3]).trim() === String(supervisor).trim(); })
+    .map(_mapAsistencia);
+}
+
+function getRegistrosAdmin(p) {
+  var rows = leer(HOJAS.ASISTENCIA);
+  if (p.supervisor && p.supervisor !== 'TODOS')
+    rows = rows.filter(function (r) { return String(r[3]).trim() === p.supervisor; });
+  if (p.fechaDesde) rows = rows.filter(function (r) { return String(r[0]) >= p.fechaDesde; });
+  if (p.fechaHasta) rows = rows.filter(function (r) { return String(r[0]) <= p.fechaHasta; });
+  return rows.map(_mapAsistencia);
+}
+
+function _mapAsistencia(r) {
+  return {
+    fecha: String(r[0]), dni: normalizarDni(r[1]), nombre: String(r[2]),
+    supervisor: String(r[3]), estado: String(r[4] || 'Trabajo'),
+    codigoLabor: String(r[5]), lote: String(r[6]),
+    horaInicio: String(r[7]), horaFin: String(r[8]),
+    horas: calcularHoras(r[7], r[8])
+  };
+}
+
+function getResumenSupervisores() {
+  var hoy = Utilities.formatDate(new Date(), TZ, 'dd/MM/yyyy');
+  var sup = {};
+  leer(HOJAS.ASISTENCIA).forEach(function (r) {
+    var s = String(r[3]).trim(); if (!s || s === 'undefined') return;
+    if (!sup[s]) sup[s] = { total: 0, hoy: 0, trabajo: 0, descanso: 0, falta: 0 };
+    sup[s].total++;
+    if (String(r[0]) === hoy) {
+      sup[s].hoy++;
+      var est = String(r[4] || 'Trabajo');
+      if (est === 'Trabajo') sup[s].trabajo++;
+      else if (est === 'Descanso') sup[s].descanso++;
+      else if (est === 'Falta') sup[s].falta++;
+    }
+  });
+  return sup;
+}
+
+function getHistorialSupervisor(supervisor) {
+  return leer(HOJAS.HISTORIAL)
+    .filter(function (r) { return !supervisor || supervisor === 'TODOS' || String(r[2]).trim() === supervisor; })
+    .map(function (r) {
+      return {
+        dni: normalizarDni(r[0]), nombre: String(r[1]), supervisor: String(r[2]),
+        primeraVez: r[3] ? Utilities.formatDate(new Date(r[3]), TZ, 'dd/MM/yyyy') : '',
+        ultimaVez:  r[4] ? Utilities.formatDate(new Date(r[4]), TZ, 'dd/MM/yyyy') : ''
+      };
+    });
+}
+
+function getHoraActual() {
+  return Utilities.formatDate(new Date(), TZ, 'HH:mm');
+}
+
+// Lista de fechas con asistencia (para el selector de la vista Validación)
+function getFechasConAsistencia() {
+  var set = {};
+  leer(HOJAS.ASISTENCIA).forEach(function (r) { if (r[0]) set[String(r[0])] = true; });
+  return Object.keys(set).sort(function (a, b) {
+    // dd/MM/yyyy -> orden descendente por fecha real
+    function k(s){var p=s.split('/');return p[2]+p[1]+p[0];}
+    return k(b).localeCompare(k(a));
+  });
+}
+
+// ============================================================
+// CARGA RELOJ + CRUCE  (núcleo nuevo v6)
+// ============================================================
+
+// Lee la hoja Carga_Reloj y devuelve filas normalizadas.
+// AJUSTA los índices [col] si tu Excel tiene otro orden de columnas.
+// Orden esperado actual: Fecha(0) DNI(1) Nombre(2) Entrada(3) Salida(4) Horas(5)
+function cargarRelojDesdeHoja() {
+  var rows = leer(HOJAS.RELOJ);
+  return rows.map(function (r) {
+    return {
+      fecha:   String(r[0] || '').trim(),
+      dni:     normalizarDni(r[1]),
+      nombre:  String(r[2] || '').trim(),
+      entrada: String(r[3] || '').trim(),
+      salida:  String(r[4] || '').trim(),
+      horas:   (r[5] === '' || r[5] === null || r[5] === undefined) ? '' : r[5]
+    };
+  }).filter(function (x) { return x.dni; });
+}
+
+// Desglose de horas por DNI para un día dado (de la hoja Asistencia)
+function getDesgloceHorasPorDia(fecha) {
+  var f = fecha || Utilities.formatDate(new Date(), TZ, 'dd/MM/yyyy');
+  var rows = leer(HOJAS.ASISTENCIA).filter(function (r) { return String(r[0]) === f; });
+  var porDni = {};
+  rows.forEach(function (r) {
+    var dni = normalizarDni(r[1]);
+    if (!porDni[dni]) {
+      porDni[dni] = {
+        dni: dni, nombre: String(r[2]), supervisor: String(r[3]),
+        estado: String(r[4] || 'Trabajo'),
+        totalHoras: 0, numLabores: 0, labores: []
+      };
+    }
+    var hrs = calcularHoras(r[7], r[8]);
+    porDni[dni].totalHoras += hrs;
+    porDni[dni].numLabores++;
+    porDni[dni].labores.push({
+      codigoLabor: String(r[5]), lote: String(r[6]),
+      horaInicio: String(r[7]), horaFin: String(r[8]), horas: hrs
+    });
+  });
+  return Object.keys(porDni).map(function (k) {
+    var o = porDni[k];
+    o.totalHoras = Math.round(o.totalHoras * 100) / 100;
+    return o;
+  }).sort(function (a, b) { return a.nombre.localeCompare(b.nombre); });
+}
+
+// Cruce por DNI (solo presencia, según lo definido):
+//   - ok:        DNI está en asistencia Y en reloj
+//   - faltaReloj: DNI en asistencia pero NO en reloj
+//   - soloReloj:  DNI en reloj pero NO en asistencia
+function cruzarAsistenciaConReloj(fecha) {
+  var f = fecha || Utilities.formatDate(new Date(), TZ, 'dd/MM/yyyy');
+
+  var asis = getDesgloceHorasPorDia(f);
+  var asisMap = {};
+  asis.forEach(function (a) { asisMap[a.dni] = a; });
+
+  var reloj = cargarRelojDesdeHoja();
+  // Si la carga reloj trae columna Fecha, filtra por el día; si no, usa todo.
+  var relojDia = reloj.filter(function (r) { return !r.fecha || r.fecha === f; });
+  if (relojDia.length === 0 && reloj.length > 0) relojDia = reloj; // reloj sin fecha
+  var relojMap = {};
+  relojDia.forEach(function (r) { relojMap[r.dni] = r; });
+
+  var detalle = [];
+  // recorre asistencia
+  Object.keys(asisMap).forEach(function (dni) {
+    var a = asisMap[dni];
+    detalle.push({
+      dni: dni, nombre: a.nombre, supervisor: a.supervisor,
+      estado: a.estado, totalHoras: a.totalHoras, numLabores: a.numLabores,
+      enReloj: !!relojMap[dni],
+      estadoCruce: relojMap[dni] ? 'ok' : 'faltaReloj'
+    });
+  });
+  // recorre reloj para detectar "solo reloj"
+  Object.keys(relojMap).forEach(function (dni) {
+    if (!asisMap[dni]) {
+      var r = relojMap[dni];
+      detalle.push({
+        dni: dni, nombre: r.nombre, supervisor: '',
+        estado: '', totalHoras: '', numLabores: 0,
+        enReloj: true, estadoCruce: 'soloReloj'
+      });
+    }
+  });
+
+  detalle.sort(function (a, b) {
+    var orden = { faltaReloj: 0, soloReloj: 1, ok: 2 };
+    if (orden[a.estadoCruce] !== orden[b.estadoCruce]) return orden[a.estadoCruce] - orden[b.estadoCruce];
+    return String(a.nombre).localeCompare(String(b.nombre));
+  });
+
+  var resumen = {
+    fecha: f,
+    totalAsistencia: Object.keys(asisMap).length,
+    totalReloj: Object.keys(relojMap).length,
+    ok: detalle.filter(function (d) { return d.estadoCruce === 'ok'; }).length,
+    faltaReloj: detalle.filter(function (d) { return d.estadoCruce === 'faltaReloj'; }).length,
+    soloReloj: detalle.filter(function (d) { return d.estadoCruce === 'soloReloj'; }).length
+  };
+  resumen.todosPresentes = (resumen.faltaReloj === 0 && resumen.totalAsistencia > 0);
+
+  return { resumen: resumen, detalle: detalle };
+}

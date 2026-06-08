@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <base target="_top">
+    <style>
+        :root {
+            --rojo: #c8102e;
+            --rojo-d: #9c0c23;
+            --verde: #1f9d55;
+            --verde-bg: #e6f7ee;
+            --amber: #b7791f;
+            --amber-bg: #fff4e0;
+            --azul: #2563eb;
+            --azul-bg: #e8f0fe;
+            --gris: #6b7280;
+            --linea: #e5e7eb;
+            --fondo: #f4f5f7;
+            --texto: #1f2937;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background: var(--fondo);
+            color: var(--texto);
+            font-size: 15px
+        }
+
+        header {
+            background: var(--rojo);
+            color: #fff;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 5
+        }
+
+        header h1 {
+            font-size: 17px;
+            margin: 0;
+            font-weight: 700
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            opacity: .9
+        }
+
+        .wrap {
+            padding: 16px;
+            max-width: 1000px;
+            margin: 0 auto
+        }
+
+        .barra {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: flex-end;
+            margin-bottom: 16px
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 4px
+        }
+
+        .campo label {
+            font-size: 12px;
+            color: var(--gris);
+            font-weight: 600
+        }
+
+        select,
+        button {
+            font-size: 15px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--linea)
+        }
+
+        select {
+            background: #fff;
+            min-width: 170px
+        }
+
+        .btn {
+            background: var(--rojo);
+            color: #fff;
+            border: none;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .btn:active {
+            background: var(--rojo-d)
+        }
+
+        .btn.sec {
+            background: #fff;
+            color: var(--texto);
+            border: 1px solid var(--linea)
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-bottom: 16px
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px 14px;
+            border: 1px solid var(--linea)
+        }
+
+        .card .n {
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1
+        }
+
+        .card .l {
+            font-size: 11px;
+            color: var(--gris);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: .3px
+        }
+
+        .card.ok .n {
+            color: var(--verde)
+        }
+
+        .card.warn .n {
+            color: var(--amber)
+        }
+
+        .card.info .n {
+            color: var(--azul)
+        }
+
+        .veredicto {
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: none
+        }
+
+        .veredicto.bien {
+            background: var(--verde-bg);
+            color: var(--verde);
+            border: 1px solid #b6e6cc
+        }
+
+        .veredicto.mal {
+            background: var(--amber-bg);
+            color: var(--amber);
+            border: 1px solid #f3dcab
+        }
+
+        .seccion-t {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gris);
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            margin: 18px 0 8px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--linea);
+            font-size: 14px
+        }
+
+        th,
+        td {
+            padding: 9px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--linea)
+        }
+
+        th {
+            background: #fafafa;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--gris);
+            letter-spacing: .3px
+        }
+
+        tr:last-child td {
+            border-bottom: none
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700
+        }
+
+        .pill.ok {
+            background: var(--verde-bg);
+            color: var(--verde)
+        }
+
+        .pill.falta {
+            background: var(--amber-bg);
+            color: var(--amber)
+        }
+
+        .pill.solo {
+            background: var(--azul-bg);
+            color: var(--azul)
+        }
+
+        .mono {
+            font-variant-numeric: tabular-nums;
+            font-feature-settings: "tnum"
+        }
+
+        .det-row {
+            cursor: pointer
+        }
+
+        .labores {
+            background: #fbfbfb;
+            font-size: 13px;
+            color: var(--gris)
+        }
+
+        .labores td {
+            padding: 6px 10px 6px 28px;
+            border-bottom: 1px solid var(--linea)
+        }
+
+        .vacio {
+            text-align: center;
+            color: var(--gris);
+            padding: 30px 10px
+        }
+
+        .spin {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: g .7s linear infinite;
+            vertical-align: -3px;
+            margin-right: 6px
+        }
+
+        @keyframes g {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .hint {
+            font-size: 12px;
+            color: var(--gris);
+            margin-top: 6px
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Validación Reloj</h1>
+        <a href="?page=admin">← Panel Admin</a>
+    </header>
+
+    <div class="wrap">
+        <div class="barra">
+            <div class="campo">
+                <label>Día de asistencia</label>
+                <select id="selFecha">
+                    <option>Cargando…</option>
+                </select>
+            </div>
+            <button class="btn" id="btnValidar">Validar contra Carga Reloj</button>
+            <button class="btn sec" id="btnRefrescar">↻ Recargar fechas</button>
+        </div>
+        <div class="hint">El DNI se uniformiza a 8 dígitos (cero a la izquierda) en ambos lados antes de cruzar.</div>
+
+        <div id="veredicto" class="veredicto"></div>
+
+        <div class="cards" id="cards" style="display:none">
+            <div class="card">
+                <div class="n" id="cAsis">0</div>
+                <div class="l">En asistencia</div>
+            </div>
+            <div class="card info">
+                <div class="n" id="cReloj">0</div>
+                <div class="l">En carga reloj</div>
+            </div>
+            <div class="card ok">
+                <div class="n" id="cOk">0</div>
+                <div class="l">Cruzan OK</div>
+            </div>
+            <div class="card warn">
+                <div class="n" id="cFalta">0</div>
+                <div class="l">Faltan en reloj</div>
+            </div>
+            <div class="card info">
+                <div class="n" id="cSolo">0</div>
+                <div class="l">Solo en reloj</div>
+            </div>
+        </div>
+
+        <div class="seccion-t">Asistencia del día — desglose de horas por DNI</div>
+        <table id="tabla">
+            <thead>
+                <tr>
+                    <th>DNI</th>
+                    <th>Nombre</th>
+                    <th>Supervisor</th>
+                    <th>Estado</th>
+                    <th class="mono">Horas</th>
+                    <th class="mono">Labores</th>
+                    <th>Reloj</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <tr>
+                    <td colspan="7" class="vacio">Selecciona un día y pulsa Validar.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function api(fn) {
+            return function () {
+                var args = Array.prototype.slice.call(arguments);
+                return new Promise(function (res, rej) {
+                    google.script.run.withSuccessHandler(res).withFailureHandler(rej)[fn].apply(null, args);
+                });
+            };
+        }
+        var getFechas = api('getFechasConAsistencia');
+        var cruzar = api('cruzarAsistenciaConReloj');
+
+        function fmtH(h) { return (h === '' || h === null || h === undefined) ? '—' : Number(h).toFixed(2); }
+
+        function cargarFechas() {
+            var sel = document.getElementById('selFecha');
+            sel.innerHTML = '<option>Cargando…</option>';
+            getFechas().then(function (fechas) {
+                if (!fechas || !fechas.length) { sel.innerHTML = '<option value="">(sin asistencia)</option>'; return; }
+                sel.innerHTML = fechas.map(function (f) { return '<option value="' + f + '">' + f + '</option>'; }).join('');
+            });
+        }
+
+        function pintar(data) {
+            var r = data.resumen, d = data.detalle;
+            document.getElementById('cards').style.display = 'grid';
+            document.getElementById('cAsis').textContent = r.totalAsistencia;
+            document.getElementById('cReloj').textContent = r.totalReloj;
+            document.getElementById('cOk').textContent = r.ok;
+            document.getElementById('cFalta').textContent = r.faltaReloj;
+            document.getElementById('cSolo').textContent = r.soloReloj;
+
+            var v = document.getElementById('veredicto');
+            v.style.display = 'block';
+            if (r.todosPresentes) {
+                v.className = 'veredicto bien';
+                v.textContent = '✅ Todos los DNI de la asistencia (' + r.totalAsistencia + ') están en la carga reloj.';
+            } else {
+                v.className = 'veredicto mal';
+                v.textContent = '⚠️ ' + r.faltaReloj + ' DNI de la asistencia NO aparecen en la carga reloj' +
+                    (r.soloReloj ? ' · ' + r.soloReloj + ' DNI están solo en el reloj.' : '.');
+            }
+
+            var tb = document.getElementById('tbody');
+            if (!d.length) { tb.innerHTML = '<tr><td colspan="7" class="vacio">Sin registros ese día.</td></tr>'; return; }
+            tb.innerHTML = '';
+            d.forEach(function (row, i) {
+                var pill = row.estadoCruce === 'ok' ? '<span class="pill ok">OK</span>'
+                    : row.estadoCruce === 'faltaReloj' ? '<span class="pill falta">Falta</span>'
+                        : '<span class="pill solo">Solo reloj</span>';
+                var tr = document.createElement('tr');
+                tr.className = 'det-row';
+                tr.innerHTML = '<td class="mono">' + row.dni + '</td><td>' + (row.nombre || '') + '</td>' +
+                    '<td>' + (row.supervisor || '—') + '</td><td>' + (row.estado || '—') + '</td>' +
+                    '<td class="mono">' + fmtH(row.totalHoras) + '</td>' +
+                    '<td class="mono">' + (row.numLabores || 0) + '</td><td>' + pill + '</td>';
+                tb.appendChild(tr);
+
+                if (row.labores && row.labores.length) {
+                    tr.addEventListener('click', function () { toggle(i); });
+                    var sub = document.createElement('tr');
+                    sub.className = 'labores'; sub.id = 'lab-' + i; sub.style.display = 'none';
+                    sub.innerHTML = '<td colspan="7">' + row.labores.map(function (l) {
+                        return 'Labor ' + (l.codigoLabor || '—') + ' · Lote ' + (l.lote || '—') + ' · ' +
+                            (l.horaInicio || '—') + '→' + (l.horaFin || '—') + ' = ' + fmtH(l.horas) + ' h';
+                    }).join('<br>') + '</td>';
+                    tb.appendChild(sub);
+                }
+            });
+        }
+        function toggle(i) { var e = document.getElementById('lab-' + i); if (e) e.style.display = e.style.display === 'none' ? '' : 'none'; }
+
+        document.getElementById('btnValidar').addEventListener('click', function () {
+            var f = document.getElementById('selFecha').value;
+            if (!f) { alert('No hay fecha seleccionada'); return; }
+            var b = this; var prev = b.innerHTML; b.disabled = true; b.innerHTML = '<span class="spin"></span>Validando…';
+            cruzar(f).then(function (data) { pintar(data); })
+                .catch(function (e) { alert('Error: ' + (e && e.message ? e.message : e)); })
+                .then(function () { b.disabled = false; b.innerHTML = prev; });
+        });
+        document.getElementById('btnRefrescar').addEventListener('click', cargarFechas);
+        cargarFechas();
+    </script>
+</body>
+
+</html>

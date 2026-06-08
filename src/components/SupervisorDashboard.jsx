@@ -833,9 +833,9 @@ export default function SupervisorDashboard({ supervisor }) {
                     type="text" 
                     value={nombre} 
                     onChange={(e) => setNombre(e.target.value)} 
-                    readOnly={!isNewWorker}
-                    placeholder={dni ? (isNewWorker ? 'Ingrese nombre completo' : 'Buscando...') : 'Ingrese DNI primero'} 
-                    style={{ width: '100%', padding: '11px 14px', background: isNewWorker ? 'rgba(0,0,0,0.25)' : 'rgba(0,0,0,0.1)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontSize: '15px', outline: 'none' }} 
+                    readOnly={!dni}
+                    placeholder={dni ? 'Ingrese nombre completo' : 'Ingrese DNI primero'} 
+                    style={{ width: '100%', padding: '11px 14px', background: dni ? 'rgba(0,0,0,0.25)' : 'rgba(0,0,0,0.1)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontSize: '15px', outline: 'none' }} 
                   />
                 </div>
               </div>

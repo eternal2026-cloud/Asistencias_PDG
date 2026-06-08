@@ -35,7 +35,7 @@ var TZ = 'America/Lima';
 // ============================================================
 var SUPABASE_CONFIG = {
   URL: 'https://zicvanezsbmwgbporfps.supabase.co',
-  KEY: 'YOUR_SUPABASE_ANON_KEY' // Reemplazar con la Anon Key de Supabase en settings -> API
+  KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InppY3ZhbmV6c2Jtd2dicG9yZnBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4OTQyMzIsImV4cCI6MjA5NjQ3MDIzMn0.wEDHhcD1Y1PVcwBjL21iPRfkIgCsBLHtfNPiygqoaeg'
 };
 
 function isSupabaseConfigured() {

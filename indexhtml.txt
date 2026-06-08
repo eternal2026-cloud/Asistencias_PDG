@@ -478,12 +478,12 @@ input[readonly]{background:var(--bg);color:var(--txt2);cursor:default}
           Usar Cámara en Vivo
         </button>
         
-        <div id="qr-drag-drop" onclick="document.getElementById('qr-file-input').click()" style="border:2px dashed var(--border); border-radius:var(--r-sm); padding:24px 16px; text-align:center; cursor:pointer; background:var(--bg); transition:border-color 0.15s;">
-          <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--txt3)" stroke-width="1.8" stroke-linecap="round" style="margin-bottom:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+        <label id="qr-drag-drop" for="qr-file-input" style="display:block; border:2px dashed var(--border); border-radius:var(--r-sm); padding:24px 16px; text-align:center; cursor:pointer; background:var(--bg); transition:border-color 0.15s;">
+          <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--txt3)" stroke-width="1.8" stroke-linecap="round" style="margin-bottom:8px; display:block; margin:0 auto 8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
           <div style="font-size:14px; font-weight:700; color:var(--txt2);">Subir imagen de Fotocheck</div>
           <div style="font-size:12px; color:var(--txt3); margin-top:4px;">Seleccione o arrastre una foto con el código QR</div>
           <input type="file" id="qr-file-input" accept="image/*" style="display:none;" onchange="handleQrFile(this)">
-        </div>
+        </label>
       </div>
       
       <div id="qr-result-box" style="display:none; margin-top:15px; background:var(--grn-bg); border:1.5px solid var(--grn-bd); border-radius:var(--r-sm); padding:10px 12px; align-items:center; gap:10px;">

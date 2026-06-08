@@ -4,7 +4,8 @@ import { Html5Qrcode } from 'html5-qrcode';
 import confetti from 'canvas-confetti';
 import { 
   Keyboard, Camera, Upload, Trash2, Plus, Save, Clock, 
-  UserPlus, Search, Briefcase, FileSpreadsheet, ListTodo, Users, CheckCircle2, AlertTriangle, ChevronRight
+  UserPlus, Search, Briefcase, FileSpreadsheet, ListTodo, Users, CheckCircle2, AlertTriangle, ChevronRight,
+  Loader2
 } from 'lucide-react';
 
 // Deterministic Date formatting without unicode/locale bugs (fixes mobile issues)
